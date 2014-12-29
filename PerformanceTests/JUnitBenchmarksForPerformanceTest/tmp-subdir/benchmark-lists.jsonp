@@ -1,0 +1,19 @@
+receiveJsonpData({
+"cols": [
+{"label": "method", "type": "string"},
+{"label": "Average time [s]", "type": "number"},
+{"label": "StdDev", "type": "number"},
+{"label": "GC time [s]", "type": "number"},
+{"label": "GC average [s]", "type": "number"},
+{"label": "StdDev", "type": "number"},
+{"label": "GC calls", "type": "number"},
+{"label": "benchmark rounds", "type": "number"},
+{"label": "warmup rounds", "type": "number"},
+{"label": "Total benchmark time", "type": "number"},
+{"label": "Total warmup time", "type": "number"}
+],
+"rows": [
+{"c": [{"v": "testCStyleProcessing"}, {"v": 0.15}, {"v": 0.0}, {"v": 0.0}, {"v": 0.0}, {"v": 0.0}, {"v": 0}, {"v": 20}, {"v": 4}, {"v": 2.95}, {"v": 0.64}]},
+{"c": [{"v": "testLogicProcessing"}, {"v": 0.15}, {"v": 0.01}, {"v": 0.01}, {"v": 0.0}, {"v": 0.0}, {"v": 1}, {"v": 20}, {"v": 4}, {"v": 3.02}, {"v": 0.61}]},
+{"c": [{"v": "testExceptionProcessing"}, {"v": 0.52}, {"v": 0.03}, {"v": 0.03}, {"v": 0.0}, {"v": 0.0}, {"v": 25}, {"v": 20}, {"v": 4}, {"v": 10.45}, {"v": 2.17}]}
+]});
