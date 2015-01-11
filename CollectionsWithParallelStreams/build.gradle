@@ -1,0 +1,62 @@
+apply plugin: 'java'
+
+ext {
+    // nTasks is the max power of 2, which semantically is the max number of streams,
+    // so for nTasks = 3 checking numbers of streams are 1, 2, 4 and 8
+    nTasks = 8;
+    // programToPlot is used to identify the format of the output data:
+    // .csv for Excel and {.graph, .txt} for GnuPlot.
+    // If it's value is 'excel' (in any case), only the csv-file will be created,
+    // and if it's value is 'GnuPlot' - the jpg-file containing the surface will be created.
+    programToPlot = "excel".toLowerCase();
+
+    outputFileName = "result_without_opt";
+    enableJVMOptimization = false;
+}
+
+def create_tasks() {
+    (nTasks + 1).times { x, nStreams = (int) Math.pow(2, x) ->
+
+        task "runJava$nStreams"(type: JavaExec) {
+
+            int jvmNStreams = nStreams - 1;
+            List<String> listJvmArgs = new ArrayList<String>(2);
+            listJvmArgs.add("-Djava.util.concurrent.ForkJoinPool.common.parallelism=$jvmNStreams");
+            if (!enableJVMOptimization)
+                listJvmArgs.add("-Xint");
+
+            jvmArgs = listJvmArgs
+            args = ["$nStreams", "$programToPlot", "$outputFileName"]
+            main = 'com.custom.MainEntry'
+            classpath = sourceSets.main.runtimeClasspath
+
+            if (nStreams > 1) {
+                int prevNStreams = nStreams / 2;
+                dependsOn "runJava$prevNStreams"
+            }
+        }
+    }
+}
+
+task total(type: Exec) {
+    // create and execute all tasks to get the data for the surface
+    create_tasks();
+    int x = (int) Math.pow(2, nTasks);
+    dependsOn "runJava$x"
+
+    // if used program is GnuPlot
+    if (programToPlot.equalsIgnoreCase("gnuplot")) {
+        // plot the surface
+        new File(outputFileName + ".graph").createNewFile();
+        standardInput new FileInputStream(outputFileName + ".graph")
+        commandLine 'gnuplot'
+    }
+    // else if used Excel (LibreOffice)
+    else if (programToPlot.equalsIgnoreCase("excel")) {
+        List<String> argList = new ArrayList<String>(2);
+        argList.add("--calc ");
+        argList.add(outputFileName + ".csv");
+        args argList
+        commandLine 'libreoffice'
+    }
+}
