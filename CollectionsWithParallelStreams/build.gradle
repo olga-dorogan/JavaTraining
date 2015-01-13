@@ -3,15 +3,15 @@ apply plugin: 'java'
 ext {
     // nTasks is the max power of 2, which semantically is the max number of streams,
     // so for nTasks = 3 checking numbers of streams are 1, 2, 4 and 8
-    nTasks = 8;
+    nTasks = 7;
     // programToPlot is used to identify the format of the output data:
     // .csv for Excel and {.graph, .txt} for GnuPlot.
     // If it's value is 'excel' (in any case), only the csv-file will be created,
     // and if it's value is 'GnuPlot' - the jpg-file containing the surface will be created.
-    programToPlot = "excel".toLowerCase();
+    programToPlot = "gnuplot".toLowerCase();
 
-    outputFileName = "result_without_opt";
-    enableJVMOptimization = false;
+    outputFileName = "result";
+    enableJVMOptimization = true;
 }
 
 def create_tasks() {
@@ -22,6 +22,8 @@ def create_tasks() {
             int jvmNStreams = nStreams - 1;
             List<String> listJvmArgs = new ArrayList<String>(2);
             listJvmArgs.add("-Djava.util.concurrent.ForkJoinPool.common.parallelism=$jvmNStreams");
+            listJvmArgs.add("-Xms2048M");
+            listJvmArgs.add("-Xmx2G");
             if (!enableJVMOptimization)
                 listJvmArgs.add("-Xint");
 

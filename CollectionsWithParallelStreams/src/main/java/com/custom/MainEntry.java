@@ -12,8 +12,8 @@ public class MainEntry {
 
     private static final int
             INIT_ARRAY_SIZE = 10,
-            RATE_ARRAY_SIZE = 10,
-            FINAL_ARRAY_SIZE = 1000000;
+            RATE_ARRAY_SIZE = 100,
+            FINAL_ARRAY_SIZE = 100_000_000;
 
     private static final int ROUNDS_FOR_AVERAGE_TIME = 3;
     private static final int ROUNDS_FOR_PREWARM = 1;
@@ -165,18 +165,25 @@ public class MainEntry {
 
         private static long getAverageTimeForParallelSort(int[] testedData) {
             double sum = 0;
-            for (int i = 0; i < ROUNDS_FOR_AVERAGE_TIME; i++)
-                sum += getTimeForParallelSort(testedData);
+            for (int i = 0; i < ROUNDS_FOR_AVERAGE_TIME; i++) {
+                int[] copiedData = Arrays.copyOf(testedData, testedData.length);
+                sum += getTimeForParallelSort(copiedData);
+            }
             return (long) (sum / ROUNDS_FOR_AVERAGE_TIME);
         }
 
         private static long getTimeForParallelSort(int[] testedData) {
             long time;
-            time = System.nanoTime();
-            int[] sortedData = Arrays.stream(testedData).parallel().sorted().toArray();
-            time = System.nanoTime() - time;
-            if (sortedData.length == 0)
-                System.out.println();
+            if(nStreams == 1) {
+                time = System.nanoTime();
+                Arrays.sort(testedData);
+                time = System.nanoTime() - time;
+            }
+            else {
+                time = System.nanoTime();
+                Arrays.parallelSort(testedData);
+                time = System.nanoTime() - time;
+            }
             return time;
         }
     }
