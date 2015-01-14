@@ -1,9 +1,8 @@
 package com.custom;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * Created by olga on 07.01.15.
@@ -11,17 +10,21 @@ import java.util.Arrays;
 public class MainEntry {
 
     private static final int
-            INIT_ARRAY_SIZE = 10,
-            RATE_ARRAY_SIZE = 100,
-            FINAL_ARRAY_SIZE = 100_000_000;
+            INIT_ARRAY_SIZE = (1 << 7),
+            RATE_ARRAY_SIZE = 2,
+            FINAL_ARRAY_SIZE = (1 << 20);
 
     private static final int ROUNDS_FOR_AVERAGE_TIME = 3;
-    private static final int ROUNDS_FOR_PREWARM = 1;
+    private static final int ROUNDS_FOR_PREWARM = 0;
+
+    private static final String fileForTestedArray = "tested_data" + FINAL_ARRAY_SIZE + ".dat";
 
     private static String fileName;
     private static int nStreams;
 
-    private static enum ProgramToPlot {Excel, GnuPlot, Undefined};
+    private static enum ProgramToPlot {Excel, GnuPlot, Undefined}
+
+    ;
     private static ProgramToPlot mode = ProgramToPlot.Undefined;
 
     public static void main(String[] args) {
@@ -43,7 +46,11 @@ public class MainEntry {
         nStreams = Integer.parseInt(args[0]);
         fileName = args[2];
 
-        Experiment.preWarm();
+
+        // If it's first JVM call, generate tested data
+        if (nStreams == 1) {
+            Experiment.generateTestedData();
+        }
 
         switch (mode) {
             case Excel:
@@ -74,17 +81,13 @@ public class MainEntry {
 
     private static class FullExperimentWithResultForExcel {
         private static void doExperiment() {
-            int[] testedData;
             long time;
             try (FileWriter writer = new FileWriter(fileName + ".csv", true)) {
                 writer.write(String.valueOf(nStreams));
                 writer.write(';');
                 for (int size = INIT_ARRAY_SIZE; size <= FINAL_ARRAY_SIZE; size *= RATE_ARRAY_SIZE) {
-                    testedData = new int[size];
-                    Arrays.setAll(testedData, (x) -> (int) (Math.random() * 100));
-
-                    time = Experiment.getAverageTimeForParallelSort(testedData);
-                    writer.write(String.valueOf(time) + ";");
+                    time = Experiment.getAvgTimeForParallelSort(size);
+                    writer.write(String.valueOf(time/1e6) + ";");
                 }
                 writer.write('\n');
             } catch (IOException e) {
@@ -100,15 +103,11 @@ public class MainEntry {
          */
         private static void doExperiment() {
             StringBuilder sb = new StringBuilder();
-            int[] testedData;
             long time;
             try (FileWriter writer = new FileWriter(fileName + ".txt", true)) {
                 for (int size = INIT_ARRAY_SIZE; size <= FINAL_ARRAY_SIZE; size *= RATE_ARRAY_SIZE) {
-                    // get tested data
-                    testedData = new int[size];
-                    Arrays.setAll(testedData, (x) -> (int) (Math.random() * 100));
                     // get duration of the sort
-                    time = Experiment.getAverageTimeForParallelSort(testedData);
+                    time = Experiment.getAvgTimeForParallelSort(size);
                     // write the duration to the file
                     sb.append(size).append("\t").append(nStreams).append("\t").append(time).append('\n');
                     writer.write(sb.toString());
@@ -150,36 +149,56 @@ public class MainEntry {
 
     private static class Experiment {
 
-        private static void preWarm() {
-            int[] testedData;
+        private static Integer[] getTestedData(int size) {
+            Integer[] data = new Integer[size];
+            try (DataInputStream in = new DataInputStream(new FileInputStream(fileForTestedArray))) {
+                for (int i = 0; i < size; i++)
+                    data[i] = in.readInt();
+            } catch (IOException e) {
+                System.out.println("Internal error with file reading.");
+            }
+            return data;
+        }
+
+        private static void generateTestedData() {
+            if (new File(fileForTestedArray).isFile())
+                return;
+            try (DataOutputStream out = new DataOutputStream(new FileOutputStream(fileForTestedArray))) {
+                Random rnd = new Random(FINAL_ARRAY_SIZE);
+                for (int i = 0; i < FINAL_ARRAY_SIZE; i++) {
+                    out.writeInt(rnd.nextInt());
+                }
+            } catch (IOException e) {
+                System.out.println("Internal error with tested data.");
+            }
+        }
+
+        private static void preWarm(int size) {
             long time = 0;
             for (int r = 0; r < ROUNDS_FOR_PREWARM; r++) {
-                for (int size = INIT_ARRAY_SIZE; size <= FINAL_ARRAY_SIZE; size *= RATE_ARRAY_SIZE) {
-                    testedData = new int[size];
-                    Arrays.setAll(testedData, (x) -> (int) (Math.random() * 100));
-                    time |= getAverageTimeForParallelSort(testedData);
-                }
+                time |= getTimeForParallelSort(size);
             }
+            System.gc();
             if (time < 0) System.out.println();
         }
 
-        private static long getAverageTimeForParallelSort(int[] testedData) {
+        private static long getAvgTimeForParallelSort(int arraySize) {
+            Experiment.preWarm(arraySize);
             double sum = 0;
             for (int i = 0; i < ROUNDS_FOR_AVERAGE_TIME; i++) {
-                int[] copiedData = Arrays.copyOf(testedData, testedData.length);
-                sum += getTimeForParallelSort(copiedData);
+                sum += getTimeForParallelSort(arraySize);
             }
             return (long) (sum / ROUNDS_FOR_AVERAGE_TIME);
         }
 
-        private static long getTimeForParallelSort(int[] testedData) {
+        private static long getTimeForParallelSort(int arraySize) {
+            Integer[] testedData = Experiment.getTestedData(arraySize);
             long time;
-            if(nStreams == 1) {
+            if (nStreams == 1) {
                 time = System.nanoTime();
                 Arrays.sort(testedData);
                 time = System.nanoTime() - time;
-            }
-            else {
+            } else {
                 time = System.nanoTime();
                 Arrays.parallelSort(testedData);
                 time = System.nanoTime() - time;

@@ -8,10 +8,10 @@ ext {
     // .csv for Excel and {.graph, .txt} for GnuPlot.
     // If it's value is 'excel' (in any case), only the csv-file will be created,
     // and if it's value is 'GnuPlot' - the jpg-file containing the surface will be created.
-    programToPlot = "gnuplot".toLowerCase();
+    programToPlot = "excel".toLowerCase();
 
     outputFileName = "result";
-    enableJVMOptimization = true;
+    disableJVMOptimization = true;
 }
 
 def create_tasks() {
@@ -19,13 +19,14 @@ def create_tasks() {
 
         task "runJava$nStreams"(type: JavaExec) {
 
-            int jvmNStreams = nStreams - 1;
-            List<String> listJvmArgs = new ArrayList<String>(2);
+            int jvmNStreams = nStreams;
+            List<String> listJvmArgs = new ArrayList<String>(5);
             listJvmArgs.add("-Djava.util.concurrent.ForkJoinPool.common.parallelism=$jvmNStreams");
             listJvmArgs.add("-Xms2048M");
             listJvmArgs.add("-Xmx2G");
-            if (!enableJVMOptimization)
+            if (disableJVMOptimization)
                 listJvmArgs.add("-Xint");
+            //listJvmArgs.add("-verbosegc")
 
             jvmArgs = listJvmArgs
             args = ["$nStreams", "$programToPlot", "$outputFileName"]
