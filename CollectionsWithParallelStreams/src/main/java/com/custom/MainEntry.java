@@ -87,7 +87,7 @@ public class MainEntry {
                 writer.write(';');
                 for (int size = INIT_ARRAY_SIZE; size <= FINAL_ARRAY_SIZE; size *= RATE_ARRAY_SIZE) {
                     time = Experiment.getAvgTimeForParallelSort(size);
-                    writer.write(String.valueOf(time/1e6) + ";");
+                    writer.write(String.valueOf(time / 1e6) + ";");
                 }
                 writer.write('\n');
             } catch (IOException e) {
@@ -161,8 +161,9 @@ public class MainEntry {
         }
 
         private static void generateTestedData() {
-            if (new File(fileForTestedArray).isFile())
+            if (new File(fileForTestedArray).isFile()) {
                 return;
+            }
             try (DataOutputStream out = new DataOutputStream(new FileOutputStream(fileForTestedArray))) {
                 Random rnd = new Random(FINAL_ARRAY_SIZE);
                 for (int i = 0; i < FINAL_ARRAY_SIZE; i++) {

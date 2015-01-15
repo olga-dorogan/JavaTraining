@@ -10,7 +10,7 @@ ext {
     // and if it's value is 'GnuPlot' - the jpg-file containing the surface will be created.
     programToPlot = "excel".toLowerCase();
 
-    outputFileName = "result";
+    outputFileName = "result_2";
     disableJVMOptimization = true;
 }
 
