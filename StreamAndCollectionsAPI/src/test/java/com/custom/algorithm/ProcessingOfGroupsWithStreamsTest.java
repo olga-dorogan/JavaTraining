@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import java.util.*;
 
-public class ProcessingOfGroupsWithStreamsTest  {
+public class ProcessingOfGroupsWithStreamsTest {
     ProcessingOfGroups testedProcessingOfGroups = new ProcessingOfGroupsWithStreams();
     Set<Group> testedDepartment;
 
@@ -22,6 +22,7 @@ public class ProcessingOfGroupsWithStreamsTest  {
         testedDepartment = HelperClass.getDepartmentWithAvgProgressForEveryGroup(expectedResult);
         assertEquals(expectedResult, testedProcessingOfGroups.getAvgProgressForEveryGroup(testedDepartment));
     }
+
     @Test
     public void testGetCountOfGroupsWithPoorStudents() throws Exception {
         final int nPoorGroups = 3;

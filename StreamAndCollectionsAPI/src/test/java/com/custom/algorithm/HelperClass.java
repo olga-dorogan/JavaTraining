@@ -50,8 +50,8 @@ public class HelperClass {
         Set<String> groupNames = mapWithAvgProgress.keySet();
 
         for (String groupName : groupNames) {
-            List<String> listOfSubjects = getListOfSubjects(avgNSubjects + (int) ((Math.random() - 0.5) * avgNSubjects));
-            int nStudents = avgNStudents + (int) ((Math.random() - 0.5) * avgNStudents - avgNStudents / 2);
+            List<String> listOfSubjects = getListOfSubjects(avgNSubjects);//+ (int) ((Math.random() - 0.5) * avgNSubjects));
+            int nStudents = avgNStudents;// + (int) ((Math.random() - 0.5) * avgNStudents - avgNStudents / 2);
             List<Student> listOfStudents = new ArrayList<>(nStudents);
             for (int curStudent = 0; curStudent < nStudents; curStudent++) {
                 Map<String, Integer> ratingOnSubjects = new HashMap<>(listOfSubjects.size());
@@ -125,12 +125,12 @@ public class HelperClass {
         if (first.size() != second.size()) {
             return false;
         }
-        if(!first.containsAll(second) || !second.containsAll(first)){
+        if (!first.containsAll(second) || !second.containsAll(first)) {
             return false;
         }
         List<Student> copyOfFirst = new ArrayList<>(first);
         List<Student> copyOfSecond = new ArrayList<>(second);
-        if(copyOfFirst.retainAll(second) || copyOfSecond.retainAll(first)){
+        if (copyOfFirst.retainAll(second) || copyOfSecond.retainAll(first)) {
             return false;
         }
         return true;
