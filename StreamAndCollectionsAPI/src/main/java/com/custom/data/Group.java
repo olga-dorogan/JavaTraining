@@ -25,6 +25,10 @@ public class Group {
         this(name, course, null);
     }
 
+    public Group(String name) {
+        this(name, 0, null);
+    }
+
     public Group() {
         this("", 0, null);
     }

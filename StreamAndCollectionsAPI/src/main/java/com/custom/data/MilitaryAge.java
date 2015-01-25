@@ -13,4 +13,12 @@ public class MilitaryAge {
         }
         return false;
     }
+
+    public static int getRandomMilitaryAge() {
+        return LOW_AGE + (int) (Math.random() * (HIGH_AGE - LOW_AGE));
+    }
+
+    public static int getNotMilitaryAge(){
+        return LOW_AGE - 2;
+    }
 }

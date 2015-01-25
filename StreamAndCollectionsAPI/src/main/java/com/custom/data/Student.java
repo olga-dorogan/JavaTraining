@@ -27,8 +27,16 @@ public class Student {
         this(name, sex, age, null);
     }
 
+    public Student(String name) {
+        this(name, Sex.Female, 0, null);
+    }
+
     public Student() {
         this("", Sex.Female, 0, null);
+    }
+
+    public Student createInstance() {
+        return new Student(this.name, this.sex, this.age, this.getRatingOnSubjects());
     }
 
     public String getName() {
@@ -61,7 +69,11 @@ public class Student {
     }
 
     public void setRatingOnSubjects(Map<String, Integer> ratingOnSubjects) {
-        this.ratingOnSubjects = new HashMap<>(ratingOnSubjects);
+        if (ratingOnSubjects == null) {
+            this.ratingOnSubjects = null;
+        } else {
+            this.ratingOnSubjects = new HashMap<>(ratingOnSubjects);
+        }
     }
 
     public void addRatingOnSubject(String subject, Integer rating) {
@@ -91,8 +103,10 @@ public class Student {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\nName: ").append(name).append("\t, sex: ").append(sex).append("\t, age: ").append(age)
-                .append("\n\tRating: ").append(ratingOnSubjects);
+        //sb.append("\nName: ").append(name).append("\t, sex: ").append(sex).append("\t, age: ").append(age)
+        //        .append("\n\tRating: ").append(ratingOnSubjects);
+        sb.append("\n").append(name).append(", ").append(sex).append(", ").append(age)
+                .append(", ").append(ratingOnSubjects);
         return sb.toString();
     }
 }

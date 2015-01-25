@@ -107,7 +107,7 @@ public class ProcessingOfGroupsWithStreams implements ProcessingOfGroups {
     }
 
     @Override
-    public Set<Group> getAllGroupsWithMoreThenOneSuccessfulStudent(Set<Group> department) {
+    public Set<String> getAllGroupsWithMoreThenOneSuccessfulStudent(Set<Group> department) {
         if (department == null) {
             return new HashSet<>(0);
         }
@@ -120,6 +120,7 @@ public class ProcessingOfGroupsWithStreams implements ProcessingOfGroups {
                                                 .allMatch(mark ->
                                                         ConvertMark.fromPercentToFourPoint(mark) == 5))
                                 .count() >= thresholdSuccessfulStudents)
+                .map(group -> group.getName())
                 .collect(Collectors.toSet());
     }
 }

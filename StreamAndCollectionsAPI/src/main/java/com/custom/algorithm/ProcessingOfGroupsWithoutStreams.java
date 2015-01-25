@@ -157,12 +157,12 @@ public class ProcessingOfGroupsWithoutStreams implements ProcessingOfGroups {
     }
 
     @Override
-    public Set<Group> getAllGroupsWithMoreThenOneSuccessfulStudent(Set<Group> department) {
+    public Set<String> getAllGroupsWithMoreThenOneSuccessfulStudent(Set<Group> department) {
         if (department == null) {
             return new HashSet<>(0);
         }
         final int thresholdOfSuccessfulStudents = 2;
-        Set<Group> resultSet = new HashSet<>();
+        Set<String> resultSet = new HashSet<>();
         for (Group group : department) {
             int nSuccessfulStudents = 0;
             List<Student> listOfStudents = group.getListOfStudents();
@@ -172,7 +172,7 @@ public class ProcessingOfGroupsWithoutStreams implements ProcessingOfGroups {
                 }
             }
             if (nSuccessfulStudents >= thresholdOfSuccessfulStudents) {
-                resultSet.add(group);
+                resultSet.add(group.getName());
             }
         }
         return resultSet;
