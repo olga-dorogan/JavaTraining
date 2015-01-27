@@ -7,6 +7,7 @@ import com.custom.data.Student;
 import com.custom.utility.ConvertMark;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -19,13 +20,11 @@ public class ProcessingOfGroupsWithStreams implements ProcessingOfGroups {
             return 0;
         }
         return (int) department.stream()
-                .map(group -> group.getListOfStudents())
-                .filter(students ->
-                        students.stream()
-                                .map(student -> student.getRatingOnSubjects().values())
-                                .flatMap(marks -> marks.stream())
-                                .filter(mark -> ConvertMark.fromPercentToFourPoint(mark) < 3)
-                                .count() > 0)
+                .filter(group -> group.getListOfStudents().stream()
+                        .map(student -> student.getRatingOnSubjects().values())
+                        .flatMap(marks -> marks.stream())
+                        .filter(mark -> ConvertMark.fromPercentToFourPoint(mark) < 3)
+                        .count() > 0)
                 .count();
     }
 
@@ -34,16 +33,13 @@ public class ProcessingOfGroupsWithStreams implements ProcessingOfGroups {
         if (department == null) {
             return new HashMap<>();
         }
-        Map<String, Double> resultMap = new HashMap<>(department.size());
-        for (Group group : department) {
-            double avg = group.getListOfStudents().stream()
-                    .map(st -> st.getRatingOnSubjects().values())
-                    .flatMap(m -> m.stream())
-                    .mapToInt(x -> x)
-                    .average().getAsDouble();
-            resultMap.put(group.getName(), avg);
-        }
-        return resultMap;
+        Function<Group, Double> funcToGetAvgProgress = group -> group.getListOfStudents().stream()
+                .map(student -> student.getRatingOnSubjects().values())
+                .flatMap(values -> values.stream())
+                .mapToInt(mark -> mark).average().getAsDouble();
+
+        return department.stream()
+                .collect(Collectors.toMap(group -> group.getName(), funcToGetAvgProgress));
     }
 
     @Override
@@ -113,13 +109,10 @@ public class ProcessingOfGroupsWithStreams implements ProcessingOfGroups {
         }
         final int thresholdSuccessfulStudents = 2;
         return department.stream()
-                .filter(group ->
-                        group.getListOfStudents().stream()
-                                .filter(student ->
-                                        student.getRatingOnSubjects().values().stream()
-                                                .allMatch(mark ->
-                                                        ConvertMark.fromPercentToFourPoint(mark) == 5))
-                                .count() >= thresholdSuccessfulStudents)
+                .filter(group -> group.getListOfStudents().stream()
+                        .filter(student -> student.getRatingOnSubjects().values().stream()
+                                .allMatch(mark -> ConvertMark.fromPercentToFourPoint(mark) == 5))
+                        .count() >= thresholdSuccessfulStudents)
                 .map(group -> group.getName())
                 .collect(Collectors.toSet());
     }
