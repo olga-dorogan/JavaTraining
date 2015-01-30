@@ -9,7 +9,7 @@ import java.util.List;
 public class Group {
     private String name;
     private int course;
-    List<Student> listOfStudents;
+    private List<Student> listOfStudents;
 
     public Group(String name, int course, List<Student> listOfStudents) {
         this.name = name;
@@ -51,7 +51,8 @@ public class Group {
 
     @Override
     public int hashCode() {
-        return name.hashCode() + ((Integer) course).hashCode() + listOfStudents.hashCode();
+        return name.hashCode() + ((Integer) course).hashCode() +
+                ((listOfStudents == null) ? 0 : listOfStudents.hashCode());
     }
 
     @Override
@@ -78,13 +79,24 @@ public class Group {
         this.course = course;
     }
 
+    public String getDescription() {
+        return name + " (" + course + ")";
+    }
+
     public List<Student> getListOfStudents() {
+        if (listOfStudents == null) {
+            return null;
+        }
         List<Student> copyOfListOfStudents = new ArrayList<Student>(listOfStudents);
         return copyOfListOfStudents;
     }
 
     public void setListOfStudents(List<Student> listOfStudents) {
-        this.listOfStudents = new ArrayList<Student>(listOfStudents);
+        if (listOfStudents == null) {
+            this.listOfStudents = null;
+        } else {
+            this.listOfStudents = new ArrayList<>(listOfStudents);
+        }
     }
 
     public void addStudent(Student student) {

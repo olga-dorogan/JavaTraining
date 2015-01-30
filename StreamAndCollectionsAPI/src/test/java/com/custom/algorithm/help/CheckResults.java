@@ -29,5 +29,7 @@ public class CheckResults {
         }
         return true;
     }
+    public static void setGroupDescriptorsAsNameAndCourse(){
 
+    }
 }

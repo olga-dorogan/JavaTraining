@@ -76,8 +76,7 @@ class DepartmentBuilder {
 
 
     public Set<Group> build() {
-        Set<Group> retSet = new TreeSet<>((Group o1, Group o2) ->
-                (o1.getName()).compareTo(o2.getName()));
+        Set<Group> retSet = new HashSet<>();
         for (int iGroup = 0; iGroup < nGroups; iGroup++) {
             retSet.add(new Group(getGroupName(iGroup), 1, getListOfStudentsForGroup(iGroup)));
         }

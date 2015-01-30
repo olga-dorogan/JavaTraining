@@ -56,7 +56,7 @@ public class InputDataForDepartment {
     public static List<Student> getListWithMilitaryAgeStudents(int nStudents) {
         List<Student> listOfStudents = new ArrayList<>(nStudents);
         for (int iStudent = 0; iStudent < nStudents; iStudent++) {
-            listOfStudents.add(new Student("Student " + iStudent, Sex.Male, MilitaryAge.getRandomMilitaryAge()));
+            listOfStudents.add(new Student("Student " + iStudent, Sex.MALE, MilitaryAge.getRandomMilitaryAge()));
         }
         return listOfStudents;
     }

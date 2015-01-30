@@ -12,65 +12,63 @@ import java.util.*;
  * Created by olga on 22.01.15.
  */
 public class ProcessingOfGroupsWithoutStreams implements ProcessingOfGroups {
+
     @Override
     public int getCountOfGroupsWithPoorStudents(Set<Group> department) {
-        if (department == null) {
+        if (!validateDepartment(department)) {
             return 0;
         }
         int result = 0;
         for (Group group : department) {
-            if (isAnyOfStudentsPoor(group.getListOfStudents())) {
+            if (validateGroup(group) && isAnyOfStudentsPoor(group.getListOfStudents())) {
                 result++;
             }
         }
         return result;
     }
 
-    private boolean isAnyOfStudentsPoor(List<Student> listOfStudents) {
-        for (Student student : listOfStudents) {
-            Collection<Integer> rating = student.getRatingOnSubjects().values();
-            for (Integer mark : rating) {
-                if (ConvertMark.fromPercentToFourPoint(mark) < 3) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     @Override
     public Map<String, Double> getAvgProgressForEveryGroup(Set<Group> department) {
-        if (department == null) {
+        if (!validateDepartment(department)) {
             return new HashMap<>();
         }
         Map<String, Double> progressOfGroup = new HashMap<>(department.size());
-        double sum;
+        double sum, avg;
         int count;
         for (Group group : department) {
-            sum = 0;
-            count = 0;
-            List<Student> listOfStudents = group.getListOfStudents();
-            for (Student student : listOfStudents) {
-                Collection<Integer> rating = student.getRatingOnSubjects().values();
-                for (Integer mark : rating) {
-                    sum += mark;
-                    count++;
+            if (validateGroup(group)) {
+                sum = 0;
+                count = 0;
+                List<Student> listOfStudents = group.getListOfStudents();
+                for (Student student : listOfStudents) {
+                    if (validateStudent(student)) {
+                        Collection<Integer> rating = student.getRatingOnSubjects().values();
+                        for (Integer mark : rating) {
+                            sum += mark;
+                            count++;
+                        }
+                    }
                 }
+                avg = sum / count;
+                if(progressOfGroup.get(group.getDescription())!= null){
+                    avg += progressOfGroup.get(group.getDescription());
+                    avg /= 2;
+                }
+                progressOfGroup.put(group.getDescription(), avg);
             }
-            progressOfGroup.put(group.getName(), sum / count);
         }
         return progressOfGroup;
     }
 
     @Override
     public Set<String> getGroupNamesWithOnlyMen(Set<Group> department) {
-        if (department == null) {
+        if (!validateDepartment(department)) {
             return new HashSet<>();
         }
         Set<String> groupsWithoutWomen = new HashSet<>();
         for (Group group : department) {
-            if (isAllStudentsMen(group.getListOfStudents())) {
-                groupsWithoutWomen.add(group.getName());
+            if (validateGroup(group) && isAllStudentsMen(group.getListOfStudents())) {
+                groupsWithoutWomen.add(group.getDescription());
             }
         }
         return groupsWithoutWomen;
@@ -78,26 +76,35 @@ public class ProcessingOfGroupsWithoutStreams implements ProcessingOfGroups {
 
     @Override
     public List<Student> getAllStudentsFromDepartment(Set<Group> department) {
+        if (!validateDepartment(department)) {
+            return new ArrayList<>();
+        }
         List<Student> listOfAllStudentsFromDepartment = new ArrayList<>();
         for (Group group : department) {
-            listOfAllStudentsFromDepartment.addAll(group.getListOfStudents());
+            if (validateGroup(group)) {
+                listOfAllStudentsFromDepartment.addAll(group.getListOfStudents());
+            }
         }
         return listOfAllStudentsFromDepartment;
     }
 
     @Override
     public Map<String, Double> getAvgRatingForEverySubject(Set<Group> department) {
-        if (department == null) {
+        if (!validateDepartment(department)) {
             return new HashMap<>(0);
         }
         Map<String, Double> resultMap = new HashMap<>();
         Set<String> setOfSubjects = new HashSet<>();
         // 1. get set of all subjects for department
         for (Group group : department) {
-            List<Student> listOfStudents = group.getListOfStudents();
-            for (Student student : listOfStudents) {
-                Set<String> subjects = student.getRatingOnSubjects().keySet();
-                setOfSubjects.addAll(subjects);
+            if (validateGroup(group)) {
+                List<Student> listOfStudents = group.getListOfStudents();
+                for (Student student : listOfStudents) {
+                    if (validateStudent(student)) {
+                        Set<String> subjects = student.getRatingOnSubjects().keySet();
+                        setOfSubjects.addAll(subjects);
+                    }
+                }
             }
         }
         // 2. for every subject get average mark
@@ -105,18 +112,22 @@ public class ProcessingOfGroupsWithoutStreams implements ProcessingOfGroups {
             double sum = 0;
             int count = 0;
             for (Group group : department) {
-                List<Student> listOfStudents = group.getListOfStudents();
-                for (Student student : listOfStudents) {
-                    Integer markOnSubject = student.getRatingOnSubjects().get(subject);
-                    if (markOnSubject != null) {
-                        sum += markOnSubject;
-                        count++;
+                if (validateGroup(group)) {
+                    List<Student> listOfStudents = group.getListOfStudents();
+                    for (Student student : listOfStudents) {
+                        if (validateStudent(student)) {
+                            Integer markOnSubject = student.getRatingOnSubjects().get(subject);
+                            if (markOnSubject != null) {
+                                sum += markOnSubject;
+                                count++;
+                            }
+                        }
                     }
-                }
-                if (count == 0) {
-                    resultMap.put(subject, 0.0);
-                } else {
-                    resultMap.put(subject, sum / count);
+                    if (count == 0) {
+                        resultMap.put(subject, 0.0);
+                    } else {
+                        resultMap.put(subject, sum / count);
+                    }
                 }
             }
         }
@@ -125,15 +136,18 @@ public class ProcessingOfGroupsWithoutStreams implements ProcessingOfGroups {
 
     @Override
     public List<Student> getAllMilitaryAgeStudents(Set<Group> department) {
-        if (department == null) {
+        if (!validateDepartment(department)) {
             return new ArrayList<>(0);
         }
         List<Student> resultList = new ArrayList<>();
         for (Group group : department) {
-            List<Student> listOfStudents = group.getListOfStudents();
-            for (Student student : listOfStudents) {
-                if ((student.getSex() == Sex.Male) && MilitaryAge.isMilitaryAge(student.getAge())) {
-                    resultList.add(student);
+            if (validateGroup(group)) {
+                List<Student> listOfStudents = group.getListOfStudents();
+                for (Student student : listOfStudents) {
+                    if (validateStudentWithoutRating(student) &&
+                            (student.getSex() == Sex.MALE) && MilitaryAge.isMilitaryAge(student.getAge())) {
+                        resultList.add(student);
+                    }
                 }
             }
         }
@@ -142,15 +156,19 @@ public class ProcessingOfGroupsWithoutStreams implements ProcessingOfGroups {
 
     @Override
     public Set<String> getAllSubjects(Set<Group> department) {
-        if (department == null) {
+        if (!validateDepartment(department)) {
             return new HashSet<>(0);
         }
         Set<String> resultSet = new HashSet<>();
         for (Group group : department) {
-            List<Student> listOfStudents = group.getListOfStudents();
-            for (Student student : listOfStudents) {
-                Set<String> subjectOfStudent = student.getRatingOnSubjects().keySet();
-                resultSet.addAll(subjectOfStudent);
+            if(validateGroup(group)) {
+                List<Student> listOfStudents = group.getListOfStudents();
+                for (Student student : listOfStudents) {
+                    if(validateStudent(student)) {
+                        Set<String> subjectOfStudent = student.getRatingOnSubjects().keySet();
+                        resultSet.addAll(subjectOfStudent);
+                    }
+                }
             }
         }
         return resultSet;
@@ -158,24 +176,40 @@ public class ProcessingOfGroupsWithoutStreams implements ProcessingOfGroups {
 
     @Override
     public Set<String> getAllGroupsWithMoreThenOneSuccessfulStudent(Set<Group> department) {
-        if (department == null) {
+        if (!validateDepartment(department)) {
             return new HashSet<>(0);
         }
         final int thresholdOfSuccessfulStudents = 2;
         Set<String> resultSet = new HashSet<>();
         for (Group group : department) {
-            int nSuccessfulStudents = 0;
-            List<Student> listOfStudents = group.getListOfStudents();
-            for (Student student : listOfStudents) {
-                if (isStudentSuccessful(student)) {
-                    nSuccessfulStudents++;
+            if(validateGroup(group)) {
+                int nSuccessfulStudents = 0;
+                List<Student> listOfStudents = group.getListOfStudents();
+                for (Student student : listOfStudents) {
+                    if (validateStudent(student) && isStudentSuccessful(student)) {
+                        nSuccessfulStudents++;
+                    }
                 }
-            }
-            if (nSuccessfulStudents >= thresholdOfSuccessfulStudents) {
-                resultSet.add(group.getName());
+                if (nSuccessfulStudents >= thresholdOfSuccessfulStudents) {
+                    resultSet.add(group.getName());
+                }
             }
         }
         return resultSet;
+    }
+
+    private boolean isAnyOfStudentsPoor(List<Student> listOfStudents) {
+        for (Student student : listOfStudents) {
+            if (validateStudent(student)) {
+                Collection<Integer> rating = student.getRatingOnSubjects().values();
+                for (Integer mark : rating) {
+                    if (ConvertMark.fromPercentToFourPoint(mark) < 3) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private boolean isStudentSuccessful(Student student) {
@@ -190,7 +224,7 @@ public class ProcessingOfGroupsWithoutStreams implements ProcessingOfGroups {
 
     private boolean isAllStudentsMen(List<Student> listOfStudents) {
         for (Student student : listOfStudents) {
-            if (student.getSex() == Sex.Female)
+            if (validateStudentWithoutRating(student) && student.getSex() == Sex.FEMALE)
                 return false;
         }
         return true;

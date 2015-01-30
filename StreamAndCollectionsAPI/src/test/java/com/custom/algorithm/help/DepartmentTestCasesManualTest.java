@@ -19,8 +19,8 @@ public class DepartmentTestCasesManualTest {
 
     @Test
     public void testBuildDepartment() {
-        final int nBadGroups = 3;
-        Set<Group> department = DepartmentTestCases.getDepartmentWithBadGroups(nBadGroups, nBadGroups * 2);
+        final int nBadGroups = 1;
+        Set<Group> department = DepartmentTestCases.Positive.getDepartmentWithBadGroups(nBadGroups, nBadGroups * 2);
         System.out.println("############################");
         System.out.println("Department with " + nBadGroups + " bad groups");
         System.out.println(department);
@@ -30,7 +30,7 @@ public class DepartmentTestCasesManualTest {
     public void testGetDepartmentWithAvgRatingsForGroups() {
         final int nGroups = 2;
         Map<String, Double> avgRatingsForGroups = InputDataForDepartment.getAvgRatingsForGroups(nGroups);
-        Set<Group> department = DepartmentTestCases.getDepartmentWithAvgRatingsForGroups(avgRatingsForGroups);
+        Set<Group> department = DepartmentTestCases.Positive.getDepartmentWithAvgRatingsForGroups(avgRatingsForGroups);
         System.out.println("############################");
         System.out.println("Department with fixed average rating for groups");
         System.out.println("Ratings :" + avgRatingsForGroups);
@@ -45,7 +45,7 @@ public class DepartmentTestCasesManualTest {
         final int nStudents = nSuccessfulStudents + 3;
         Set<String> namesOfSuccessfulGroups = InputDataForDepartment
                 .getNamesForGroupsWithSuccessfulStudents(nSuccessfulGroups);
-        Set<Group> department = DepartmentTestCases
+        Set<Group> department = DepartmentTestCases.Positive
                 .getDepartmentWithGroupsWithSuccessfulStudents(nSuccessfulStudents, nStudents,
                         namesOfSuccessfulGroups, nGroups);
         System.out.println("############################");
@@ -59,7 +59,7 @@ public class DepartmentTestCasesManualTest {
         final int nOnlyMenGroups = 3;
         final int nGroups = nOnlyMenGroups + 2;
         Set<String> namesOfOnlMenGroups = InputDataForDepartment.getNamesForOnlyMenGroups(nOnlyMenGroups);
-        Set<Group> department = DepartmentTestCases.getDepartmentWithMenGroups(namesOfOnlMenGroups, nGroups);
+        Set<Group> department = DepartmentTestCases.Positive.getDepartmentWithMenGroups(namesOfOnlMenGroups, nGroups);
         System.out.println("############################");
         System.out.println(("Department with " + nOnlyMenGroups + " groups without women."));
         System.out.println(department);
@@ -71,10 +71,10 @@ public class DepartmentTestCasesManualTest {
         final int nStudentsInGroup = 3;
         final int nGroups = 2;
         List<Student> listOfStudents = InputDataForDepartment.getListWithAllStudents(nStudentsInGroup, nGroups);
-        Set<Group> department = DepartmentTestCases.getDepartmentFromListOfStudents(listOfStudents, nGroups);
+        Set<Group> department = DepartmentTestCases.Positive.getDepartmentFromListOfStudents(listOfStudents, nGroups);
         System.out.println("############################");
         System.out.println("Department with fixed list of students.");
-        System.out.println("Students: "+listOfStudents);
+        System.out.println("Students: " + listOfStudents);
         System.out.println(department);
     }
 
@@ -84,11 +84,11 @@ public class DepartmentTestCasesManualTest {
         final int nGroups = 4;
         List<Student> listOfMilitaryAgeStudents = InputDataForDepartment
                 .getListWithMilitaryAgeStudents(nStudentsInGroup * nGroups);
-        Set<Group> department = DepartmentTestCases
+        Set<Group> department = DepartmentTestCases.Positive
                 .getDepartmentWithSpecifiedMilitaryAgeStudents(listOfMilitaryAgeStudents, nGroups);
         System.out.println("############################");
         System.out.println("Department with fixed list of military age students.");
-        System.out.println("Military age students: "+listOfMilitaryAgeStudents);
+        System.out.println("Military age students: " + listOfMilitaryAgeStudents);
         System.out.println(department);
     }
 
@@ -97,11 +97,11 @@ public class DepartmentTestCasesManualTest {
         final int nGroupsWithEqualSubjects = 2;
         final int nGroups = 3;
         Map<String, Double> avgRatingsOnSubjects = InputDataForDepartment.getAvgRatingsForSubjects(4);
-        Set<Group> department = DepartmentTestCases
+        Set<Group> department = DepartmentTestCases.Positive
                 .getDepartmentWithListOfSubjects(avgRatingsOnSubjects, nGroupsWithEqualSubjects, nGroups);
         System.out.println("############################");
         System.out.println("Department with fixed list of subjects.");
-        System.out.println("Subjects (with avg ratings): "+avgRatingsOnSubjects);
+        System.out.println("Subjects (with avg ratings): " + avgRatingsOnSubjects);
         System.out.println(department);
     }
 

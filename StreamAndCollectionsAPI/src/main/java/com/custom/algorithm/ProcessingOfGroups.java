@@ -27,4 +27,20 @@ public interface ProcessingOfGroups {
     Set<String> getAllSubjects(Set<Group> department);
 
     Set<String> getAllGroupsWithMoreThenOneSuccessfulStudent(Set<Group> department);
+
+    default boolean validateDepartment(Set<Group> department) {
+        return (department != null);
+    }
+
+    default boolean validateGroup(Group group) {
+        return (group != null && group.getListOfStudents() != null);
+    }
+
+    default boolean validateStudent(Student student) {
+        return (student != null && student.getRatingOnSubjects() != null);
+    }
+
+    default boolean validateStudentWithoutRating(Student student) {
+        return (student != null);
+    }
 }

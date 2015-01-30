@@ -19,7 +19,7 @@ public class Student {
         if (ratingOnSubjects != null) {
             this.ratingOnSubjects = new HashMap<>(ratingOnSubjects);
         } else {
-            this.ratingOnSubjects = new HashMap<>();
+            this.ratingOnSubjects = null;
         }
     }
 
@@ -28,11 +28,11 @@ public class Student {
     }
 
     public Student(String name) {
-        this(name, Sex.Female, 0, null);
+        this(name, Sex.FEMALE, 0, null);
     }
 
     public Student() {
-        this("", Sex.Female, 0, null);
+        this("", Sex.FEMALE, 0, null);
     }
 
     public Student createInstance() {
@@ -64,6 +64,9 @@ public class Student {
     }
 
     public Map<String, Integer> getRatingOnSubjects() {
+        if(ratingOnSubjects == null){
+            return null;
+        }
         Map<String, Integer> copyOfRatingOnSubjects = new HashMap<String, Integer>(ratingOnSubjects);
         return copyOfRatingOnSubjects;
     }
