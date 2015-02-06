@@ -1,0 +1,48 @@
+﻿-- SELECT * FROM pg_catalog.pg_tables where schemaname not in ('pg_catalog', 'information_schema')
+
+-- SELECT 
+-- 	cl.relname, cn.conname, atr.attname
+-- FROM
+-- 	pg_class AS cl, pg_constraint AS cn, pg_attribute AS atr
+-- WHERE
+-- 	cl.oid = cn.conrelid AND
+-- 	cn.contype = 'p' AND
+-- 	atr.attrelid = cl.oid AND
+-- 	atr.attnum = ANY (cn.conkey) AND
+-- 	cl.relname = 'dev_elem';
+-- 
+
+-- SELECT DISTINCT inittable.tablename, inittable.constraintname, inittable.attname, pg_class.relname, pg_attribute.attname
+-- FROM 
+-- 	(SELECT cl.relname AS tablename, cn.conname AS constraintname, atr.attname AS attname, cn.confkey, cn.confrelid
+-- 	 FROM	pg_class AS cl, pg_constraint AS cn, pg_attribute AS atr
+-- 	 WHERE	cl.oid = cn.conrelid AND cn.contype = 'f' AND atr.attrelid = cl.oid AND
+-- 		atr.attnum = ANY (cn.conkey) AND cl.relname = 'dev_elem') 
+-- 	AS inittable,
+-- 	pg_class, pg_attribute
+-- WHERE 	inittable.confrelid = pg_class.oid AND pg_attribute.attrelid = pg_class.oid AND
+--  	pg_attribute.attnum = ANY (inittable.confkey);
+
+-- SELECT pg_class.relname, pg_attribute.attname, format_type(pg_attribute.atttypid, null)--pg_type.typname
+-- FROM 
+-- pg_class INNER JOIN pg_attribute ON pg_attribute.attrelid = pg_class.oid
+-- WHERE
+-- pg_attribute.attnum > 0 AND
+-- pg_class.relname = 'orders';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
