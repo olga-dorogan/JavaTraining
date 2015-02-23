@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+    <persistence-unit name="department" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>com.custom.entity.Department</class>
+        <class>com.custom.entity.DepartmentGroup</class>
+        <class>com.custom.entity.Student</class>
+        <properties>
+            <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/jv_tr_department"/>
+            <property name="javax.persistence.jdbc.user" value="olga"/>
+            <property name="javax.persistence.jdbc.password" value="olga"/>
+
+            <property name="eclipselink.logging.level.sql" value="FINE"/>
+            <property name="eclipselink.logging.parameters" value="true"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="departmentH2" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>com.custom.entity.Department</class>
+        <class>com.custom.entity.DepartmentGroup</class>
+        <class>com.custom.entity.Student</class>
+        <properties>
+            <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/test"/>
+            <property name="javax.persistence.jdbc.user" value="sa"/>
+            <property name="javax.persistence.jdbc.password" value=""/>
+
+            <property name="eclipselink.logging.level.sql" value="FINE"/>
+            <property name="eclipselink.logging.parameters" value="true"/>
+        </properties>
+    </persistence-unit>
+
+</persistence>

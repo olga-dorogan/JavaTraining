@@ -1,0 +1,19 @@
+apply plugin: 'java'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.11'
+    compile 'org.dbunit:dbunit:2.5.0'
+
+    compile 'org.mod4j.org.apache.commons:lang:2.1.0'
+
+    compile 'org.postgresql:postgresql:9.4-1200-jdbc41'
+    compile 'com.h2database:h2:1.4.181'
+
+    compile 'org.eclipse.persistence:eclipselink:2.5.2'
+    compile 'org.eclipse.persistence:javax.persistence:2.0.0'
+}

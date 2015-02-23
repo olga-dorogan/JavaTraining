@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <department id="1" description="department 1"/>
+    <department id="2" description="department 2 updated"/>
+    <department_group id="1" name="group 1[1]" course="1" department_id="1"/>
+    <department_group id="2" name="group 2[1]" course="1" department_id="1"/>
+    <department_group id="3" name="group 1[2]" course="1" department_id="2"/>
+    <department_group id="4" name="group 2[2]" course="1" department_id="2"/>
+    <student/>
+</dataset>
+
