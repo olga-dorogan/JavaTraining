@@ -5,3 +5,13 @@
 #Gradle
 .gradle
 build/
+
+#Maven
+target/
+
+#Temporary
+*.csv
+*.txt
+*.graph
+*.jpg
+*.dat
