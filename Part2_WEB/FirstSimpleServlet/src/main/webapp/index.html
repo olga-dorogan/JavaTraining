@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="reqInfoApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js#sthash.2ofZg0J2.dpuf"></script>
+    <script>
+        // example of requested page
+        // http://localhost:8081/#/index.html?1=one&2=two&3=three
+        var reqInfoApp = angular.module('reqInfoApp', []);
+        reqInfoApp.controller('getInfo', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+            $http
+                    .get('/info', {params: $location.search()})
+                    .success(function (data) {
+                        $scope.headers = data.headers;
+                        $scope.params = data.params;
+                        $scope.threads = data.threads;
+                    });
+        }]);
+    </script>
+</head>
+<body ng-controller="getInfo">
+<h1>Headers</h1>
+    <ul>
+        <li ng-repeat="header in headers">{{header.key}} == {{header.value}}</li>
+    </ul>
+    <h1>Parameters</h1>
+    <ul>
+        <li ng-repeat="param in params">{{param.key}} == {{param.value}}</li>
+    </ul>
+    <h1>Threads</h1>
+    <ul>
+        <li ng-repeat="thread in threads">{{thread.key}}: {{thread.value}}</li>
+    </ul>
+</body>
+</html>
