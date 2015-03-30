@@ -10,7 +10,7 @@
         var reqInfoApp = angular.module('reqInfoApp', []);
         reqInfoApp.controller('getInfo', ['$scope', '$http', '$location', function ($scope, $http, $location) {
             $http
-                    .get('/info', {params: $location.search()})
+                    .get($location.absUrl().split('#')[0] + '/info.byJS', {params: $location.search()})
                     .success(function (data) {
                         $scope.headers = data.headers;
                         $scope.params = data.params;
@@ -21,16 +21,16 @@
 </head>
 <body ng-controller="getInfo">
 <h1>Headers</h1>
-    <ul>
-        <li ng-repeat="header in headers">{{header.key}} == {{header.value}}</li>
-    </ul>
-    <h1>Parameters</h1>
-    <ul>
-        <li ng-repeat="param in params">{{param.key}} == {{param.value}}</li>
-    </ul>
-    <h1>Threads</h1>
-    <ul>
-        <li ng-repeat="thread in threads">{{thread.key}}: {{thread.value}}</li>
-    </ul>
+<ul>
+    <li ng-repeat="header in headers">{{header.key}} == {{header.value}}</li>
+</ul>
+<h1>Parameters</h1>
+<ul>
+    <li ng-repeat="param in params">{{param.key}} == {{param.value}}</li>
+</ul>
+<h1>Threads</h1>
+<ul>
+    <li ng-repeat="thread in threads">{{thread.key}}: {{thread.value}}</li>
+</ul>
 </body>
 </html>
