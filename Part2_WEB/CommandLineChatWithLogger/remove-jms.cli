@@ -1,0 +1,11 @@
+# Batch script to remove the the JMS configuration from the JBoss server
+
+# Start batching commands
+batch
+
+# Configure the JMS test queue
+jms-topic remove --topic-address=topicChat
+
+# Run the batch commands
+run-batch
+

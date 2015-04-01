@@ -1,0 +1,10 @@
+# Batch script to add the JMS configuration to the JBoss server
+
+# Start batching commands
+batch
+
+# Configure the JMS test topic
+jms-topic add --topic-address=topicChat --entries=topic/Chat,java:jboss/exported/jms/topic/Chat
+
+# Run the batch commands
+run-batch
