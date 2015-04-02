@@ -3,24 +3,16 @@
 
     <persistence-unit name="departmentDB" transaction-type="JTA">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <!--<jta-data-source>java:jboss/datasources/DepartmentMySql</jta-data-source>-->
-        <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
-        <!--<jta-data-source>java:jboss/datasources/Department</jta-data-source>-->
+        <jta-data-source>${datasource}</jta-data-source>
         <class>com.custom.model.entity.Department</class>
         <class>com.custom.model.entity.DepartmentGroup</class>
         <class>com.custom.model.entity.Student</class>
         <properties>
-            <property name="eclipselink.ddl-generation" value="create-tables"/>
-            <property name="eclipselink.logging.level.sql" value="FINE"/>
-            <property name="eclipselink.logging.parameters" value="true"/>
-
-
-            <!--<property name="wildfly.jpa.twophasebootstrap" value="false" />-->
-
+            <property name="javax.persistence.schema-generation.database.action"
+                      value="${persistence-schema-generation}"/>
+            <property name="javax.persistence.sql-load-script-source"
+                      value="${sql-load-script}" />
             <property name="eclipselink.target-server" value="JBoss"/>
-
-            <!--<property name="jboss.as.jpa.providerModule" value="org.eclipse.persistence" />-->
-            <!--<property name="jboss.as.jpa.adapterModule" value="org.eclipse.persistence" />-->
         </properties>
     </persistence-unit>
 

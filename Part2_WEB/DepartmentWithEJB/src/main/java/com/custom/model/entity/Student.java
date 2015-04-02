@@ -19,7 +19,7 @@ public class Student {
     @Column(name = "age")
     private int age;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "group_id", nullable = false)
+//    @JoinColumn(name = "group_id", nullable = false)
     private DepartmentGroup departmentGroup;
 
     public Student() {

@@ -23,24 +23,24 @@
             </ul>
         </div>
         <div class="col-md-6">
-            <h4>Departments</h4>
+            <h4 class="h4_caption">Departments</h4>
             <table class="table table-striped table-bordered table-condensed">
                 <thead>
-                <th class="col-md-1">#</th>
-                <th class="col-md-3">Description</th>
-                <th class="col-md-2">Action</th>
+                <th class="col-md-1 center-align">#</th>
+                <th class="col-md-3 center-align">Description</th>
+                <th class="col-md-2 center-align">Action</th>
                 </thead>
                 <tbody>
                 <c:forEach var="department" items="${departments}" varStatus="cnt">
                     <tr>
-                        <td class="vert-align center-align">${cnt.count}</td>
-                        <td class="vert-align left-align">
+                        <td class="middle-align center-align">${cnt.count}</td>
+                        <td class="middle-align">
                             <a href="departmentGroupAll.do?departmentId=${department.id}">${department.description}</a>
                         </td>
-                        <td class="vert-align center-align">
+                        <td class="middle-align center-align">
                             <form class="form-inline" action="departmentRemove.do" method="post">
                                 <input type="hidden" name="departmentId" value="${department.id}">
-                                <button class="btn btn-default form-control" type="submit">
+                                <button class="btn btn-default" type="submit">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </button>
                             </form>
@@ -53,7 +53,6 @@
             <c:choose>
                 <c:when test="${empty errorAddingDepartment}">
                     <h4>Add new department:</h4>
-
                     <form action="departmentAdd.do" method="post" class="form-horizontal">
                         <div class="form-group">
                             <label for="name" class="col-md-4 control-label">Description</label>

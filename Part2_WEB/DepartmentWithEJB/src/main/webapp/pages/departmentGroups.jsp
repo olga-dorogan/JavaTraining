@@ -47,18 +47,20 @@
                 <c:when test="${not empty departmentGroups}">
                     <table class="table table-striped table-bordered table-condensed">
                         <thead>
+                        <th class="col-md-1 center-align">#</th>
                         <th class="col-md-3">Group</th>
-                        <th class="col-md-2">Course</th>
-                        <th class="col-md-1">Action</th>
+                        <th class="col-md-1 center-align">Course</th>
+                        <th class="col-md-1 center-align">Action</th>
                         </thead>
                         <tbody>
-                        <c:forEach var="group" items="${departmentGroups}">
+                        <c:forEach var="group" items="${departmentGroups}" varStatus="cnt">
                             <tr>
+                                <td class="center-align">${cnt.count}</td>
                                 <td>
                                     <a href="studentAll.do?groupId=${group.id}"> ${group.name}</a>
                                 </td>
-                                <td align="center">${group.course}</td>
-                                <td align="center">
+                                <td class="center-align">${group.course}</td>
+                                <td class="center-align">
                                     <form class="form-inline" action="departmentGroupRemove.do" method="post">
                                         <input type="hidden" name="groupId" value="${group.id}">
                                         <button class="btn btn-default" type="submit" >
@@ -88,23 +90,23 @@
                 <c:otherwise>
                     <form action="departmentGroupAdd.do" method="post" class="form-horizontal">
                         <div class="form-group">
-                            <label for="name" class="col-md-4 control-label">Name</label>
+                            <label for="name" class="col-md-3 control-label">Name</label>
 
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 <input type="text" class="form-control" id="name" placeholder="Group name"
                                        name="groupName">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="course" class="col-md-4 control-label">Course</label>
+                            <label for="course" class="col-md-3 control-label">Course</label>
 
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 <input type="text" class="form-control" id="course" placeholder="Group course"
                                        name="groupCourse">
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-offset-4 col-md-10">
+                            <div class="col-md-offset-3 col-md-9">
                                 <button type="submit" class="btn btn-default">Add group</button>
                             </div>
                         </div>
@@ -127,15 +129,15 @@
                 <c:otherwise>
                     <form action="departmentEdit.do" method="post" class="form-horizontal">
                         <div class="form-group">
-                            <label for="course" class="col-md-2 control-label">Description</label>
+                            <label for="course" class="col-md-3 control-label">Description</label>
 
-                            <div class="col-md-10">
+                            <div class="col-md-9">
                                 <input type="text" class="form-control" id="description" placeholder="Group description"
                                        name="departmentDescription" value="${departmentCurrent.description}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
+                            <div class="col-md-offset-3 col-md-9">
                                 <button type="submit" class="btn btn-default">Edit department</button>
                             </div>
                         </div>

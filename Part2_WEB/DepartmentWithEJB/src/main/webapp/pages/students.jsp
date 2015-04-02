@@ -11,6 +11,7 @@
 <head>
     <title>Students</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/pages/css/styles.css">
 </head>
 <body>
 <div class="container">
@@ -38,17 +39,19 @@
                 <c:when test="${not empty groupStudents}">
                     <table class="table table-striped table-bordered table-condensed">
                         <thead>
+                        <th class="col-md-1 center-align">#</th>
                         <th class="col-md-2">First name</th>
                         <th class="col-md-2">Last name</th>
-                        <th class="col-md-1">Age</th>
-                        <th class="col-md-1">Action</th>
+                        <th class="col-md-1 center-align">Age</th>
+                        <th class="col-md-1 center-align">Action</th>
                         </thead>
                         <tbody>
-                        <c:forEach var="student" items="${groupStudents}">
+                        <c:forEach var="student" items="${groupStudents}" varStatus="cnt">
                             <tr>
+                                <td class="center-align">${cnt.count}</td>
                                 <td>${student.firstName}</td>
                                 <td>${student.lastName}</td>
-                                <td>${student.age}</td>
+                                <td class="center-align">${student.age}</td>
                                 <td>
                                     <form class="form-inline" action="studentRemove.do" method="post">
                                         <input type="hidden" name="studentId" value="${student.id}">
@@ -81,29 +84,29 @@
                 <c:otherwise>
                     <form action="studentAdd.do" method="post" class="form-horizontal">
                         <div class="form-group">
-                            <label for="fName" class="col-md-4 control-label">First name</label>
-                            <div class="col-md-8">
+                            <label for="fName" class="col-md-3 control-label">First name</label>
+                            <div class="col-md-9">
                                 <input type="text" class="form-control" id="fName" placeholder="First name"
                                        name="studentFirstName">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="lName" class="col-md-4 control-label">Last name</label>
-                            <div class="col-md-8">
+                            <label for="lName" class="col-md-3 control-label">Last name</label>
+                            <div class="col-md-9">
                                 <input type="text" class="form-control" id="lName" placeholder="Last name"
                                        name="studentLastName">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="age" class="col-md-4 control-label">Age</label>
+                            <label for="age" class="col-md-3 control-label">Age</label>
 
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 <input type="text" class="form-control" id="age" placeholder="Age"
                                        name="studentAge">
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-offset-4 col-md-8">
+                            <div class="col-md-offset-3 col-md-9">
                                 <button type="submit" class="btn btn-default">Add student</button>
                             </div>
                         </div>

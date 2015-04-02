@@ -1,15 +1,30 @@
-.table tbody>tr>td.vert-align{
-    vertical-align: middle;
-    padding: 0px;
-    margin: 0px;
-}
-.table tbody>tr>td.left-align {
-    padding: 10px;
-}
-.table tbody>tr>td.center-align {
-    text-align: center;
+/*.table tbody>tr>td.middle-align {*/
+    /*vertical-align: middle;*/
+    /*padding: 0px;*/
+    /*margin: 0px;*/
+/*}*/
+/*.table tbody>tr>td.left-align {*/
+    /*padding: 15px;*/
+/*}*/
+/*.table tbody>tr>td.center-align {*/
+    /*text-align: center;*/
+/*}*/
+
+/*.table thead>tr>th.center-align {*/
+    /*text-align: center;*/
+/*}*/
+
+.h4_caption {
+    color:red;
 }
 
-.table thead>th.center-align {
+.center-align {
     text-align: center;
+}
+.middle-align {
+    vertical-align: middle;
+}
+.form-inline {
+    padding: 0px;
+    margin: 0px;
 }
