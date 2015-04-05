@@ -7,12 +7,14 @@
         <class>com.custom.model.entity.Department</class>
         <class>com.custom.model.entity.DepartmentGroup</class>
         <class>com.custom.model.entity.Student</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
+            <property name="eclipselink.target-server" value="JBoss"/>
+
             <property name="javax.persistence.schema-generation.database.action"
                       value="${persistence-schema-generation}"/>
             <property name="javax.persistence.sql-load-script-source"
                       value="${sql-load-script}" />
-            <property name="eclipselink.target-server" value="JBoss"/>
         </properties>
     </persistence-unit>
 

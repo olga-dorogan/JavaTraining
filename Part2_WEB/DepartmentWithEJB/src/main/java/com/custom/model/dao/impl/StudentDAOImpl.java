@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Stateless
 public class StudentDAOImpl implements StudentDAO {
-    @PersistenceContext(unitName = "departmentDB")
+    @PersistenceContext
     private EntityManager em;
 
     @Override

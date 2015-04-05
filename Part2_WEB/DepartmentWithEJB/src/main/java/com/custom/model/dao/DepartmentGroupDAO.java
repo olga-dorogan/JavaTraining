@@ -4,11 +4,13 @@ import com.custom.model.exception.DAOBusinessException;
 import com.custom.model.entity.Department;
 import com.custom.model.entity.DepartmentGroup;
 
+import javax.ejb.Local;
 import java.util.List;
 
 /**
  * Created by olga on 20.03.15.
  */
+@Local
 public interface DepartmentGroupDAO {
 
     DepartmentGroup addToDepartment(Department department, DepartmentGroup group) throws DAOBusinessException;

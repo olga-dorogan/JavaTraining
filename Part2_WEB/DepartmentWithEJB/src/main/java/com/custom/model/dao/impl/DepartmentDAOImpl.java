@@ -1,8 +1,8 @@
 package com.custom.model.dao.impl;
 
 import com.custom.model.dao.DepartmentDAO;
-import com.custom.model.exception.DAOBusinessException;
 import com.custom.model.entity.Department;
+import com.custom.model.exception.DAOBusinessException;
 import org.apache.commons.lang.Validate;
 
 import javax.ejb.Stateless;
@@ -13,7 +13,6 @@ import java.util.List;
  * Created by olga on 18.03.15.
  */
 @Stateless
-//@TransactionAttribute(value = TransactionAttributeType.REQUIRED)
 public class DepartmentDAOImpl implements DepartmentDAO {
     @PersistenceContext(unitName = "departmentDB")
     private EntityManager em;
@@ -23,15 +22,15 @@ public class DepartmentDAOImpl implements DepartmentDAO {
         Validate.notNull(department, "Department must not be null");
 
         Department departmentFromDB = em.find(Department.class, department.getId());
-        TypedQuery<Department> queryGetDepartmentByDescr = em.createNamedQuery("getDepartmentByDescription",
-                Department.class);
+        TypedQuery<String> queryGetDepartmentByDescr = em.createNamedQuery("getDepartmentByDescription",
+                String.class);
         queryGetDepartmentByDescr.setParameter("description", department.getDescription());
-        List<Department> equalDepartments = queryGetDepartmentByDescr.getResultList();
+        List<String> equalDepartments = queryGetDepartmentByDescr.getResultList();
         if (departmentFromDB == null && equalDepartments.isEmpty()) {
             em.persist(department);
             return department;
         } else {
-            throw new DAOBusinessException("", new EntityExistsException("Department already exists"));
+            throw new DAOBusinessException("Department already exists", new EntityExistsException());
         }
     }
 
@@ -80,6 +79,7 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 
     @Override
     public Department refresh(Department department) {
+        department = em.find(Department.class, department.getId());
         em.refresh(department);
         return department;
     }

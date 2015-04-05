@@ -86,7 +86,6 @@ public class DepartmentGroup implements Serializable {
         if (course != that.course) return false;
         if (!name.equals(that.name)) return false;
         if (department == null) return true;
-        if (department != that.department) return false;
         if (department != null && !department.equals(that.department)) return false;
 
         return true;

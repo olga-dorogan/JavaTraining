@@ -22,6 +22,7 @@ public class Department implements Serializable {
     private List<DepartmentGroup> groups;
 
     public Department() {
+
     }
 
     public Department(String description) {

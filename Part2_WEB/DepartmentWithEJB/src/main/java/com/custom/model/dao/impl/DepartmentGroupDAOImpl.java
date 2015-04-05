@@ -14,7 +14,6 @@ import java.util.List;
  * Created by olga on 20.03.15.
  */
 @Stateless
-//@TransactionAttribute(value = TransactionAttributeType.REQUIRED)
 public class DepartmentGroupDAOImpl implements DepartmentGroupDAO {
     @PersistenceContext
     private EntityManager em;
@@ -30,7 +29,6 @@ public class DepartmentGroupDAOImpl implements DepartmentGroupDAO {
         DepartmentGroup groupFromDB = em.find(DepartmentGroup.class, group.getId());
         if (groupFromDB == null && !checkGroupForEqualityWithPresentGroups(departmentFromDb, group)) {
             group.setDepartment(departmentFromDb);
-            departmentFromDb.getGroups().add(group);
             em.persist(group);
             return group;
         } else {
