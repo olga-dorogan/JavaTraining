@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                      http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
+        bean-discovery-mode="all">
+    <!--
+    'bean-discovery-mode' attribute has three possible values:
+    'annotated' - loosely translated, means that only components with a class-level annotation are processed.
+    'all' - all components are processed, just like they were in Java EE 6 with the explicit beans.xml.
+    'none' - CDI is effectively disabled.
+
+    By default, if you specify nothing and there is no beans.xml,
+    the bean discovery mode of 'annotated' and not 'all' is assumed.
+    -->
+
+</beans>
