@@ -13,6 +13,10 @@
         <module>scopes</module>
         <module>qualifiers</module>
         <module>producers</module>
+        <module>alternativies</module>
+        <module>events</module>
+        <module>interceptors</module>
+        <module>decorators</module>
     </modules>
     <packaging>pom</packaging>
 
