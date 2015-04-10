@@ -11,6 +11,9 @@
         <module>stateless</module>
         <module>stateful</module>
         <module>embedded-ejb-cont</module>
+        <module>lifecycle</module>
+        <module>singleton</module>
+        <module>async</module>
     </modules>
     <packaging>pom</packaging>
     <properties>

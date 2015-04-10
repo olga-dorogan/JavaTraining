@@ -16,7 +16,7 @@
         <module>alternativies</module>
         <module>events</module>
         <module>interceptors</module>
-        <module>decorators</module>
+        <module>decorator</module>
     </modules>
     <packaging>pom</packaging>
 
