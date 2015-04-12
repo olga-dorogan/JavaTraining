@@ -1,13 +1,14 @@
 package com.custom.model.dao.impl;
 
 import com.custom.model.dao.DepartmentGroupDAO;
-import com.custom.model.exception.DAOBusinessException;
 import com.custom.model.entity.Department;
 import com.custom.model.entity.DepartmentGroup;
-import org.apache.commons.lang.Validate;
+import com.custom.model.exception.DAOBusinessException;
 
 import javax.ejb.Stateless;
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -19,9 +20,7 @@ public class DepartmentGroupDAOImpl implements DepartmentGroupDAO {
     private EntityManager em;
 
     @Override
-    public DepartmentGroup addToDepartment(Department department, DepartmentGroup group) throws DAOBusinessException {
-        Validate.notNull(group, "DepartmentGroup must not be null");
-
+    public DepartmentGroup addToDepartment(@NotNull Department department, @NotNull @Valid DepartmentGroup group) throws DAOBusinessException {
         Department departmentFromDb = em.find(Department.class, department.getId());
         if (departmentFromDb == null) {
             throw new DAOBusinessException("Department was not found in the DB", new EntityNotFoundException(""));
@@ -30,6 +29,7 @@ public class DepartmentGroupDAOImpl implements DepartmentGroupDAO {
         if (groupFromDB == null && !checkGroupForEqualityWithPresentGroups(departmentFromDb, group)) {
             group.setDepartment(departmentFromDb);
             em.persist(group);
+            em.getEntityManagerFactory().getCache().evict(Department.class, departmentFromDb.getId());
             return group;
         } else {
             throw new DAOBusinessException("The same departmentGroup already exists", new EntityExistsException(""));
@@ -38,16 +38,15 @@ public class DepartmentGroupDAOImpl implements DepartmentGroupDAO {
 
 
     @Override
-    public DepartmentGroup moveToDepartment(Department newDepartment, DepartmentGroup group) throws DAOBusinessException {
-        Validate.notNull(newDepartment, "Department must not be null");
-        Validate.notNull(group, "DepartmentGroup must not be null");
-
+    public DepartmentGroup moveToDepartment(@NotNull Department newDepartment, @NotNull @Valid DepartmentGroup group) throws DAOBusinessException {
         if (em.find(Department.class, newDepartment.getId()) == null) {
             throw new DAOBusinessException("", new EntityNotFoundException("Department was not found in the DB"));
         }
         if (em.find(DepartmentGroup.class, group.getId()) == null) {
             throw new DAOBusinessException("", new EntityNotFoundException("DepartmentGroup was not found in the DB"));
         }
+        em.getEntityManagerFactory().getCache().evict(Department.class, newDepartment.getId());
+        em.getEntityManagerFactory().getCache().evict(Department.class, group.getDepartment().getId());
         group.setDepartment(newDepartment);
         return em.merge(group);
     }
@@ -63,9 +62,7 @@ public class DepartmentGroupDAOImpl implements DepartmentGroupDAO {
     }
 
     @Override
-    public DepartmentGroup update(DepartmentGroup group) throws DAOBusinessException {
-        Validate.notNull(group, "DepartmentGroup must not be null");
-
+    public DepartmentGroup update(@NotNull @Valid DepartmentGroup group) throws DAOBusinessException {
         if (em.find(DepartmentGroup.class, group.getId()) == null) {
             throw new DAOBusinessException("", new EntityNotFoundException("DepartmentGroup was not found in the DB"));
         } else if (checkGroupForEqualityWithPresentGroups(group.getDepartment(), group)) {
@@ -74,7 +71,18 @@ public class DepartmentGroupDAOImpl implements DepartmentGroupDAO {
         return em.merge(group);
     }
 
-    private boolean checkGroupForEqualityWithPresentGroups(Department department, DepartmentGroup group) {
+    @Override
+    public void delete(@NotNull DepartmentGroup group) throws DAOBusinessException {
+        DepartmentGroup searchedGroup = em.find(DepartmentGroup.class, group.getId());
+        if (searchedGroup == null) {
+            throw new DAOBusinessException("", new EntityNotFoundException("DepartmentGroup was not found in the DB"));
+        }
+        em.remove(searchedGroup);
+        em.getEntityManagerFactory().getCache().evict(Department.class, searchedGroup.getDepartment().getId());
+    }
+
+
+    private boolean checkGroupForEqualityWithPresentGroups(@NotNull Department department, @NotNull DepartmentGroup group) {
         TypedQuery<DepartmentGroup> query = em.createQuery("SELECT d FROM DepartmentGroup d WHERE d.department.id = ?1",
                 DepartmentGroup.class);
         query.setParameter(1, department.getId());
@@ -87,13 +95,4 @@ public class DepartmentGroupDAOImpl implements DepartmentGroupDAO {
         return false;
     }
 
-    @Override
-    public void delete(DepartmentGroup group) throws DAOBusinessException {
-        Validate.notNull(group, "DepartmentGroup must not be null");
-        DepartmentGroup searchedGroup = em.find(DepartmentGroup.class, group.getId());
-        if (searchedGroup == null) {
-            throw new DAOBusinessException("", new EntityNotFoundException("DepartmentGroup was not found in the DB"));
-        }
-        em.remove(searchedGroup);
-    }
 }

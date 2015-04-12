@@ -3,10 +3,11 @@ package com.custom.model.dao.impl;
 import com.custom.model.dao.DepartmentDAO;
 import com.custom.model.entity.Department;
 import com.custom.model.exception.DAOBusinessException;
-import org.apache.commons.lang.Validate;
 
 import javax.ejb.Stateless;
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -14,16 +15,15 @@ import java.util.List;
  */
 @Stateless
 public class DepartmentDAOImpl implements DepartmentDAO {
+    private static final String CONSTRAINT_DEPT_MSG = "Department must not be null";
+
     @PersistenceContext(unitName = "departmentDB")
     private EntityManager em;
 
     @Override
-    public Department add(Department department) throws DAOBusinessException {
-        Validate.notNull(department, "Department must not be null");
-
+    public Department add(@NotNull @Valid Department department) throws DAOBusinessException {
         Department departmentFromDB = em.find(Department.class, department.getId());
-        TypedQuery<String> queryGetDepartmentByDescr = em.createNamedQuery("getDepartmentByDescription",
-                String.class);
+        TypedQuery<String> queryGetDepartmentByDescr = em.createNamedQuery("getDepartmentByDescription", String.class);
         queryGetDepartmentByDescr.setParameter("description", department.getDescription());
         List<String> equalDepartments = queryGetDepartmentByDescr.getResultList();
         if (departmentFromDB == null && equalDepartments.isEmpty()) {
@@ -38,9 +38,6 @@ public class DepartmentDAOImpl implements DepartmentDAO {
     @Override
     public Department getById(long id) {
         Department department = em.find(Department.class, id);
-        if (department != null) {
-            em.refresh(department);
-        }
         return department;
     }
 
@@ -50,9 +47,7 @@ public class DepartmentDAOImpl implements DepartmentDAO {
     }
 
     @Override
-    public Department update(Department department) throws DAOBusinessException {
-        Validate.notNull(department, "Department must not be null");
-
+    public Department update(@NotNull @Valid Department department) throws DAOBusinessException {
         TypedQuery<Department> queryGetDepartmentByDescr = em.createNamedQuery("getDepartmentByDescription",
                 Department.class);
         queryGetDepartmentByDescr.setParameter("description", department.getDescription());
@@ -68,8 +63,7 @@ public class DepartmentDAOImpl implements DepartmentDAO {
     }
 
     @Override
-    public void delete(Department department) throws DAOBusinessException {
-        Validate.notNull(department, "Department must not be null");
+    public void delete(@NotNull Department department) throws DAOBusinessException {
         Department searchedDepartment = em.find(Department.class, department.getId());
         if (searchedDepartment == null) {
             throw new DAOBusinessException("Department was not found in the DB", new EntityNotFoundException(""));
@@ -77,10 +71,4 @@ public class DepartmentDAOImpl implements DepartmentDAO {
         em.remove(searchedDepartment);
     }
 
-    @Override
-    public Department refresh(Department department) {
-        department = em.find(Department.class, department.getId());
-        em.refresh(department);
-        return department;
-    }
 }

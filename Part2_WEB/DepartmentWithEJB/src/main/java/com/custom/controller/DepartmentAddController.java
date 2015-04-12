@@ -33,12 +33,14 @@ import java.io.IOException;
 
 @WebServlet("departmentAdd.do")
 public class DepartmentAddController extends HttpServlet {
-    public final String PARAMETER_DEPARTMENT_DESCR = "description";
-    public final String REDIRECT_OK = "departmentAll.do";
-    public final String PAGE_ERROR = "pages/error.jsp";
-    public static final String PAGE_ERROR_ADD = "pages/departments.jsp";
-    public static final String ATTRIBUTE_MODEL_TO_VIEW_ERROR = "errorAddingDepartment";
-    public static final String ATTRIBUTE_MODEL_TO_VIEW_LIST = "departments";
+    private static final String PARAMETER_DEPARTMENT_DESCR = "description";
+
+    private static final String REDIRECT_OK = "departmentAll.do";
+    private static final String PAGE_ERROR = "pages/error.jsp";
+    private static final String PAGE_ERROR_ADD = "pages/departments.jsp";
+
+    private static final String ATTRIBUTE_MODEL_TO_VIEW_ERROR = "errorAddingDepartment";
+    private static final String ATTRIBUTE_MODEL_TO_VIEW_LIST = "departments";
 
     @Inject
     private JMSContext context;

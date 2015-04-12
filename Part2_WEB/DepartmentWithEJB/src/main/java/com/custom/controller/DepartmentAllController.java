@@ -25,8 +25,7 @@ public class DepartmentAllController extends HttpServlet {
     private DepartmentDAO departmentDAO;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             List<Department> departments = departmentDAO.getAll();
             req.setAttribute(ATTRIBUTE_MODEL_TO_VIEW, departments);

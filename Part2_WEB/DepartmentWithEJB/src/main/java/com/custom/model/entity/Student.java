@@ -1,6 +1,7 @@
 package com.custom.model.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by olga on 15.02.15.
@@ -12,14 +13,15 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private long id;
-    @Column(name = "first_name", nullable = false)
+    @NotNull
+    @Column(name = "first_name")
     private String firstName;
-    @Column(name = "last_name", nullable = false)
+    @NotNull
+    @Column(name = "last_name")
     private String lastName;
     @Column(name = "age")
     private int age;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    @JoinColumn(name = "group_id", nullable = false)
     private DepartmentGroup departmentGroup;
 
     public Student() {
@@ -90,5 +92,14 @@ public class Student {
         } else {
             return this.departmentGroup.equals(otherStudent.departmentGroup) && isEqualIgnoreDepartment;
         }
+    }
+
+    @Override
+    public int hashCode() {
+        int result = firstName != null ? firstName.hashCode() : 0;
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + age;
+        result = 31 * result + (departmentGroup != null ? departmentGroup.hashCode() : 0);
+        return result;
     }
 }

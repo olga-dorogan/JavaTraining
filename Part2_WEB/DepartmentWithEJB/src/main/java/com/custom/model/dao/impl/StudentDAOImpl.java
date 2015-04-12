@@ -1,16 +1,17 @@
 package com.custom.model.dao.impl;
 
 import com.custom.model.dao.StudentDAO;
-import com.custom.model.exception.DAOBusinessException;
 import com.custom.model.entity.DepartmentGroup;
 import com.custom.model.entity.Student;
-import org.apache.commons.lang.Validate;
+import com.custom.model.exception.DAOBusinessException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -22,9 +23,7 @@ public class StudentDAOImpl implements StudentDAO {
     private EntityManager em;
 
     @Override
-    public Student addToGroup(DepartmentGroup group, Student student) throws DAOBusinessException {
-        Validate.notNull(group, "DepartmentGroup must not be null");
-        Validate.notNull(student, "Student must not be null");
+    public Student addToGroup(@NotNull DepartmentGroup group, @NotNull @Valid Student student) throws DAOBusinessException {
         DepartmentGroup groupFromDB = em.find(DepartmentGroup.class, group.getId());
         if (groupFromDB == null) {
             throw new DAOBusinessException("DepartmentGroup was not found in the DB", new EntityNotFoundException(""));
@@ -32,7 +31,7 @@ public class StudentDAOImpl implements StudentDAO {
         student.setDepartmentGroup(groupFromDB);
         if (em.find(Student.class, student.getId()) == null) {
             em.persist(student);
-            group.getStudents().add(student);
+            em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, group.getId());
             return student;
         } else {
             throw new DAOBusinessException("The same student already exists", new EntityExistsException(""));
@@ -40,18 +39,17 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     @Override
-    public Student moveToGroup(DepartmentGroup group, Student student) {
-        Validate.notNull(group, "DepartmentGroup must not be null");
-        Validate.notNull(student, "Student must not be null");
+    public Student moveToGroup(@NotNull DepartmentGroup group, @NotNull @Valid Student student) throws DAOBusinessException {
         if (em.find(DepartmentGroup.class, group.getId()) == null) {
-            throw new EntityExistsException("DepartmentGroup was not found in the DB");
+            throw new DAOBusinessException("DepartmentGroup was not found in the DB", new EntityExistsException(""));
         }
         if (em.find(Student.class, student.getId()) == null) {
-            throw new EntityExistsException("Student was not found in the DB");
+            throw new DAOBusinessException("Student was not found in the DB", new EntityExistsException(""));
         }
+        em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, student.getDepartmentGroup().getId());
+        em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, group.getId());
         student.setDepartmentGroup(group);
-        student = em.merge(student);
-        return student;
+        return em.merge(student);
     }
 
     @Override
@@ -60,27 +58,26 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     @Override
-    public List<Student> getAll(DepartmentGroup group) {
+    public List<Student> getAll(@NotNull DepartmentGroup group) {
         return em.createQuery("SELECT st FROM Student st WHERE st.departmentGroup.id = " + group.getId(),
                 Student.class).getResultList();
     }
 
     @Override
-    public Student update(Student student) {
-        Validate.notNull(student, "Student must not be null");
+    public Student update(@NotNull @Valid Student student) throws DAOBusinessException {
         if (em.find(Student.class, student.getId()) == null) {
-            throw new EntityExistsException("Student was not found in the DB");
+            throw new DAOBusinessException("Student was not found in the DB", new EntityExistsException(("")));
         }
         return em.merge(student);
     }
 
     @Override
-    public void delete(Student student) {
-        Validate.notNull(student, "Student must not be null");
+    public void delete(@NotNull Student student) {
         Student studentFromDb = em.find(Student.class, student.getId());
         if (studentFromDb == null) {
             throw new EntityExistsException("Student was not found in the DB");
         }
+        em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, studentFromDb.getDepartmentGroup().getId());
         em.remove(studentFromDb);
     }
 }

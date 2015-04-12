@@ -23,7 +23,6 @@ public class DepartmentGroupRemoveController extends HttpServlet {
     private static final String PAGE_REDIRECT_OK = "departmentGroupAll.do?departmentId=";
     private static final String PAGE_ERROR = "pages/error.jsp";
 
-
     @EJB
     private DepartmentGroupDAO departmentGroupDAO;
     @EJB

@@ -11,10 +11,13 @@
         <properties>
             <property name="eclipselink.target-server" value="JBoss"/>
 
+            <!--<property name="eclipselink.logging.level.sql" value="FINE"/>-->
+            <!--<property name="eclipselink.logging.parameters" value="true"/>-->
+
             <property name="javax.persistence.schema-generation.database.action"
                       value="${persistence-schema-generation}"/>
             <property name="javax.persistence.sql-load-script-source"
-                      value="${sql-load-script}" />
+                      value="${sql-load-script}"/>
         </properties>
     </persistence-unit>
 

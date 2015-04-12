@@ -6,6 +6,7 @@ import com.custom.model.entity.DepartmentGroup;
 import com.custom.model.entity.Student;
 import com.custom.model.exception.DAOBusinessException;
 import org.apache.commons.lang.Validate;
+import org.hamcrest.core.IsInstanceOf;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
@@ -13,11 +14,14 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
 import javax.persistence.EntityExistsException;
+import javax.validation.ConstraintViolationException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -40,6 +44,10 @@ public class DepartmentDAOImplTest {
 
     @EJB
     private DepartmentDAO departmentDAO;
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
 
     private Department testedDepartment = new Department("tested department");
 
@@ -71,7 +79,7 @@ public class DepartmentDAOImplTest {
     }
     @Test(expected = DAOBusinessException.class)
     @InSequence(3)
-    public void testAddWithDepartmentDuplicateDescriptions() throws Exception {
+    public void testAddWhenDepartmentsHaveDuplicateDescriptions() throws Exception {
         try {
             Department equalDescrDepartment = new Department(testedDepartment.getDescription());
             departmentDAO.add(equalDescrDepartment);
@@ -81,5 +89,20 @@ public class DepartmentDAOImplTest {
             assertEquals(1, departmentDAO.getAll().size());
             throw e;
         }
+    }
+
+    @Test
+    @InSequence(4)
+    public void testAddWhenNullParameterShouldThrowException() throws DAOBusinessException {
+        thrown.expect(javax.ejb.EJBException.class);
+        thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(ConstraintViolationException.class));
+        departmentDAO.add(null);
+    }
+    @Test
+    @InSequence(5)
+    public void testAddWhenDepartmentWithNullParameterShouldThrowException() throws DAOBusinessException {
+        thrown.expect(javax.ejb.EJBException.class);
+        thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(ConstraintViolationException.class));
+        departmentDAO.add(new Department(null));
     }
 }

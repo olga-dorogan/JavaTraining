@@ -1,10 +1,12 @@
 package com.custom.model.dao;
 
-import com.custom.model.exception.DAOBusinessException;
 import com.custom.model.entity.Department;
 import com.custom.model.entity.DepartmentGroup;
+import com.custom.model.exception.DAOBusinessException;
 
 import javax.ejb.Local;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -13,15 +15,15 @@ import java.util.List;
 @Local
 public interface DepartmentGroupDAO {
 
-    DepartmentGroup addToDepartment(Department department, DepartmentGroup group) throws DAOBusinessException;
+    DepartmentGroup addToDepartment(@NotNull Department department, @NotNull @Valid DepartmentGroup group) throws DAOBusinessException;
 
-    public DepartmentGroup moveToDepartment(Department newDepartment, DepartmentGroup group) throws DAOBusinessException;
+    public DepartmentGroup moveToDepartment(@NotNull Department newDepartment, @NotNull @Valid DepartmentGroup group) throws DAOBusinessException;
 
     public DepartmentGroup getById(long id);
 
     public List<DepartmentGroup> getAll();
 
-    public DepartmentGroup update(DepartmentGroup group) throws DAOBusinessException;
+    public DepartmentGroup update(@NotNull @Valid DepartmentGroup group) throws DAOBusinessException;
 
-    public void delete(DepartmentGroup group) throws DAOBusinessException;
+    public void delete(@NotNull DepartmentGroup group) throws DAOBusinessException;
 }

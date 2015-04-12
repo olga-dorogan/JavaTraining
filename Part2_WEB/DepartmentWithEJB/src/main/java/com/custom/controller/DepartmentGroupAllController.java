@@ -17,11 +17,13 @@ import java.io.IOException;
 @WebServlet("departmentGroupAll.do")
 public class DepartmentGroupAllController extends HttpServlet {
     private static final String PARAMETER_DEPARTMENT_ID = "departmentId";
+
+    private static final String PAGE_REDIRECT_OK = "pages/departmentGroups.jsp";
+    private static final String PAGE_ERROR = "pages/error.jsp";
+
     private static final String ATTRIBUTE_SESSION_DEPARTMENT_CURRENT = "departmentCurrent";
     private static final String ATTRIBUTE_MODEL_TO_VIEW_GROUPS = "departmentGroups";
     private static final String ATTRIBUTE_MODEL_TO_VIEW_DEPARTMENTS = "departments";
-    private static final String PAGE_REDIRECT_OK = "pages/departmentGroups.jsp";
-    private static final String PAGE_ERROR = "pages/error.jsp";
 
     @EJB
     private DepartmentDAO departmentDAO;
@@ -41,7 +43,6 @@ public class DepartmentGroupAllController extends HttpServlet {
                     return;
                 }
             } catch (Exception ignore) {
-
             }
         }
         resp.sendRedirect(PAGE_ERROR);

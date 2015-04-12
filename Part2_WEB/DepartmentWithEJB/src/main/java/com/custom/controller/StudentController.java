@@ -22,18 +22,18 @@ import java.io.IOException;
 @WebServlet(urlPatterns = {"studentAll.do", "studentAdd.do", "studentRemove.do"})
 public class StudentController extends HttpServlet {
     private static final String PARAMETER_GROUP_ID = "groupId";
+    private static final String PAGE_OK = "pages/students.jsp";
+    private static final String PAGE_ERROR = "pages/error.jsp";
     private static final String ATTRIBUTE_SESSION_GROUP_CURRENT = "groupCurrent";
     private static final String ATTRIBUTE_MODEL_TO_VIEW_GROUPS = "groups";
     private static final String ATTRIBUTE_MODEL_TO_VIEW_STUDENTS = "groupStudents";
-    private static final String PAGE_OK = "pages/students.jsp";
-    private static final String PAGE_ERROR = "pages/error.jsp";
     /// constants for 'add' method
     private static final String PARAMETER_STUDENT_FNAME = "studentFirstName";
     private static final String PARAMETER_STUDENT_LNAME = "studentLastName";
     private static final String PARAMETER_STUDENT_AGE = "studentAge";
-    private static final String ATTRIBUTE_MODEL_TO_VIEW_ERROR_ADD_STUDENT = "errorAddStudentMessage";
     private static final String PAGE_REDIRECT_OK = "studentAll.do?" + PARAMETER_GROUP_ID + "=";
     private static final String ATTRIBUTE_SESSION_DEPARTMENT_CURRENT = "departmentCurrent";
+    private static final String ATTRIBUTE_MODEL_TO_VIEW_ERROR_ADD_STUDENT = "errorAddStudentMessage";
     /// constants for 'remove' method
     private static final String PARAMETER_STUDENT_ID = "studentId";
 

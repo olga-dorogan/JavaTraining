@@ -2,9 +2,9 @@ package com.custom.controller;
 
 import com.custom.model.dao.DepartmentDAO;
 import com.custom.model.dao.DepartmentGroupDAO;
-import com.custom.model.exception.DAOBusinessException;
 import com.custom.model.entity.Department;
 import com.custom.model.entity.DepartmentGroup;
+import com.custom.model.exception.DAOBusinessException;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -22,10 +22,12 @@ import java.io.IOException;
 public class DepartmentGroupAddController extends HttpServlet {
     private static final String PARAMETER_GROUP_NAME = "groupName";
     private static final String PARAMETER_GROUP_COURSE = "groupCourse";
-    private static final String ATTRIBUTE_SESSION_DEPARTMENT_CURRENT = "departmentCurrent";
+
     private static final String PAGE_REDIRECT_OK = "departmentGroupAll.do?departmentId=";
     private static final String PAGE_ERROR = "pages/error.jsp";
     private static final String PAGE_FORWARD_ADD_GROUP_ERROR = "pages/departmentGroups.jsp";
+
+    private static final String ATTRIBUTE_SESSION_DEPARTMENT_CURRENT = "departmentCurrent";
     private static final String ATTRIBUTE_MODEL_TO_VIEW_ERROR_ADD_GROUP = "errorAddGroupMessage";
     private static final String ATTRIBUTE_MODEL_TO_VIEW_GROUPS = "departmentGroups";
     private static final String ATTRIBUTE_MODEL_TO_VIEW_DEPARTMENTS = "departments";

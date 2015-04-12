@@ -19,13 +19,15 @@ import java.io.IOException;
 @WebServlet("departmentEdit.do")
 public class DepartmentEditController extends HttpServlet {
     private static final String PARAMETER_DEPARTMENT_DESCRIPTION = "departmentDescription";
-    private static final String ATTRIBUTE_SESSION_DEPARTMENT_CURRENT = "departmentCurrent";
+
     private static final String PAGE_REDIRECT_OK = "departmentGroupAll.do?departmentId=";
     private static final String PAGE_ERROR = "pages/error.jsp";
+    private static final String PAGE_ERROR_EDIT = "pages/departmentGroups.jsp";
+
+    private static final String ATTRIBUTE_SESSION_DEPARTMENT_CURRENT = "departmentCurrent";
     private static final String ATTRIBUTE_MODEL_TO_VIEW_EDIT_DEPARTMENT_ERROR = "errorEditDepartmentMessage";
     private static final String ATTRIBUTE_MODEL_TO_VIEW_GROUPS = "departmentGroups";
     private static final String ATTRIBUTE_MODEL_TO_VIEW_DEPARTMENTS = "departments";
-    private static final String PAGE_ERROR_EDIT = "pages/departmentGroups.jsp";
 
     @EJB
     private DepartmentDAO departmentDAO;

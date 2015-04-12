@@ -1,6 +1,7 @@
 package com.custom.model.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class Department implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private long id;
+    @NotNull
     @Column(name = "description")
     private String description;
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)

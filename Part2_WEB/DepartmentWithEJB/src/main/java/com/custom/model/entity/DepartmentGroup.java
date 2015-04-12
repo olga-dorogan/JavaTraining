@@ -1,6 +1,7 @@
 package com.custom.model.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +16,12 @@ public class DepartmentGroup implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private long id;
-    @Column(name = "name", nullable = false)
+    @NotNull
+    @Column(name = "name")
     private String name;
     @Column(name = "course")
     private int course;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    @JoinColumn(name = "department_id", nullable = false)
     private Department department;
     @OneToMany(mappedBy = "departmentGroup", cascade = CascadeType.ALL)
     private List<Student> students = new ArrayList<Student>();
@@ -95,7 +96,9 @@ public class DepartmentGroup implements Serializable {
     public int hashCode() {
         int result = name.hashCode();
         result = 31 * result + course;
-        result = 31 * result + department.hashCode();
+        if (department != null) {
+            result = 31 * result + department.hashCode();
+        }
         return result;
     }
 }

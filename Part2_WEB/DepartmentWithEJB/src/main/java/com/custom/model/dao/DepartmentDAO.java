@@ -1,9 +1,11 @@
 package com.custom.model.dao;
 
-import com.custom.model.exception.DAOBusinessException;
 import com.custom.model.entity.Department;
+import com.custom.model.exception.DAOBusinessException;
 
 import javax.ejb.Local;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -11,11 +13,9 @@ import java.util.List;
  */
 @Local
 public interface DepartmentDAO {
-    public Department add(Department department) throws DAOBusinessException;
+    public Department add(@NotNull @Valid Department department) throws DAOBusinessException;
     public Department getById(long id);
     public List<Department> getAll();
-    public Department update(Department department) throws DAOBusinessException;
-    public void delete(Department department) throws DAOBusinessException;
-
-    public Department refresh(Department department);
+    public Department update(@NotNull @Valid Department department) throws DAOBusinessException;
+    public void delete(@NotNull Department department) throws DAOBusinessException;
 }
