@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://custom.com/" xmlns:tns="http://custom.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="findSurnames" type="tns:findSurnames"/>
+
+  <xs:element name="findSurnamesResponse" type="tns:findSurnamesResponse"/>
+
+  <xs:element name="saveStudent" type="tns:saveStudent"/>
+
+  <xs:element name="saveStudentResponse" type="tns:saveStudentResponse"/>
+
+  <xs:element name="welcomeMessage" type="tns:welcomeMessage"/>
+
+  <xs:element name="welcomeMessageResponse" type="tns:welcomeMessageResponse"/>
+
+  <xs:complexType name="welcomeMessage">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="welcomeMessageResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="saveStudent">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:student" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="student">
+    <xs:sequence>
+      <xs:element name="age" type="xs:int"/>
+      <xs:element name="firstName" type="xs:string" minOccurs="0"/>
+      <xs:element name="lastName" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="saveStudentResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="findSurnames">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="findSurnamesResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+
