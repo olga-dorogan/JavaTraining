@@ -21,6 +21,8 @@ public interface DepartmentGroupDAO {
 
     public DepartmentGroup getById(long id);
 
+    public DepartmentGroup getByDescrAndCourse(String descr, int course);
+
     public List<DepartmentGroup> getAll();
 
     public DepartmentGroup update(@NotNull @Valid DepartmentGroup group) throws DAOBusinessException;

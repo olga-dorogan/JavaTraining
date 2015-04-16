@@ -57,6 +57,17 @@ public class DepartmentGroupDAOImpl implements DepartmentGroupDAO {
     }
 
     @Override
+    public DepartmentGroup getByDescrAndCourse(String descr, int course) {
+        List<DepartmentGroup> result = em.createQuery("SELECT g FROM DepartmentGroup g " +
+                "WHERE g.name LIKE ?1 AND g.course = ?2", DepartmentGroup.class)
+                .setParameter(1, descr).setParameter(2, course).getResultList();
+        if (result.size() > 0) {
+            return result.get(0);
+        }
+        return null;
+    }
+
+    @Override
     public List<DepartmentGroup> getAll() {
         return em.createQuery("SELECT g FROM DepartmentGroup g", DepartmentGroup.class).getResultList();
     }

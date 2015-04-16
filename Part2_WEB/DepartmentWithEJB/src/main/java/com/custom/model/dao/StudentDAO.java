@@ -22,6 +22,8 @@ public interface StudentDAO {
 
     public List<Student> getAll(@NotNull DepartmentGroup group);
 
+    public List<Student> getAllByLastNameOrder(@NotNull DepartmentGroup group);
+
     public Student update(@NotNull @Valid Student student) throws DAOBusinessException;
 
     public void delete(@NotNull Student student);

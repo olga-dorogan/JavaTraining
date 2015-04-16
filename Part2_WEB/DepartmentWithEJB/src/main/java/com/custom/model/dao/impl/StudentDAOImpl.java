@@ -64,6 +64,12 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     @Override
+    public List<Student> getAllByLastNameOrder(@NotNull DepartmentGroup group) {
+        return em.createQuery("SELECT st FROM Student st WHERE st.departmentGroup.id = " + group.getId() +
+                " ORDER BY st.lastName", Student.class).getResultList();
+    }
+
+    @Override
     public Student update(@NotNull @Valid Student student) throws DAOBusinessException {
         if (em.find(Student.class, student.getId()) == null) {
             throw new DAOBusinessException("Student was not found in the DB", new EntityExistsException(("")));
