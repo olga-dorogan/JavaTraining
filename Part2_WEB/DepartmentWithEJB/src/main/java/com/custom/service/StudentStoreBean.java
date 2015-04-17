@@ -70,7 +70,7 @@ public class StudentStoreBean implements StudentStore {
 
     @Override
     public void deleteStudent(int id) {
-        studentDAO.delete(studentDAO.getById(id-1));
+        studentDAO.delete(studentDAO.getById(id));
     }
 
     @Override

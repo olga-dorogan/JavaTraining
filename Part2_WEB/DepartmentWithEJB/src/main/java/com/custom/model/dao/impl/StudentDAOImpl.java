@@ -71,7 +71,8 @@ public class StudentDAOImpl implements StudentDAO {
 
     @Override
     public Student update(@NotNull @Valid Student student) throws DAOBusinessException {
-        if (em.find(Student.class, student.getId()) == null) {
+        Student studentFromDB = em.find(Student.class, student.getId());
+        if (studentFromDB == null) {
             throw new DAOBusinessException("Student was not found in the DB", new EntityExistsException(("")));
         }
         return em.merge(student);

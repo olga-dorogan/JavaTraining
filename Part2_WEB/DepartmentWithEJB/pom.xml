@@ -194,6 +194,25 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <!-- wsgen for wsdl file generation -->
+                <groupId>org.jvnet.jax-ws-commons</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>wsgen</goal>
+                        </goals>
+                        <configuration>
+                            <sei>com.custom.service.StudentStoreBean</sei>
+                            <genWsdl>true</genWsdl>
+                            <resourceDestDir>${basedir}/src/main/webapp/WEB-INF/wsdl</resourceDestDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
