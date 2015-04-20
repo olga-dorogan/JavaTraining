@@ -26,6 +26,20 @@ public interface StudentStore {
 
     /**
      * 
+     * @param student
+     * @throws DAOBusinessException_Exception
+     */
+    @WebMethod
+    @RequestWrapper(localName = "saveStudent", targetNamespace = "http://service.custom.com/", className = "com.custom.client.gen.SaveStudent")
+    @ResponseWrapper(localName = "saveStudentResponse", targetNamespace = "http://service.custom.com/", className = "com.custom.client.gen.SaveStudentResponse")
+    public void saveStudent(
+        @WebParam(name = "student", targetNamespace = "")
+        Student student)
+        throws DAOBusinessException_Exception
+    ;
+
+    /**
+     * 
      * @param course
      * @param group
      * @return
@@ -86,20 +100,6 @@ public interface StudentStore {
         int studentId,
         @WebParam(name = "updatedInfo", targetNamespace = "")
         Student updatedInfo)
-        throws DAOBusinessException_Exception
-    ;
-
-    /**
-     * 
-     * @param student
-     * @throws DAOBusinessException_Exception
-     */
-    @WebMethod
-    @RequestWrapper(localName = "saveStudent", targetNamespace = "http://service.custom.com/", className = "com.custom.client.gen.SaveStudent")
-    @ResponseWrapper(localName = "saveStudentResponse", targetNamespace = "http://service.custom.com/", className = "com.custom.client.gen.SaveStudentResponse")
-    public void saveStudent(
-        @WebParam(name = "student", targetNamespace = "")
-        Student student)
         throws DAOBusinessException_Exception
     ;
 

@@ -76,6 +76,7 @@ public class StudentStoreBean implements StudentStore {
     @Override
     public void updateStudent(int id, StudentVO studentVO) throws DAOBusinessException {
         Student studentEntity = new Student(studentVO.getFirstName(), studentVO.getLasName(), studentVO.getAge());
+        studentEntity.setDepartmentGroup(departmentGroupDAO.getByDescrAndCourse(studentVO.getGroup(), studentVO.getCourse()));
         studentEntity.setId(id);
         studentDAO.update(studentEntity);
     }

@@ -32,7 +32,7 @@ public class DepartmentGroupAllController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String departmentIdStr = req.getParameter(PARAMETER_DEPARTMENT_ID);
         if (departmentIdStr != null) {
-            try {
+//            try {
                 long id = Long.parseLong(departmentIdStr);
                 Department department = departmentDAO.getById(id);
                 if (department != null) {
@@ -42,8 +42,8 @@ public class DepartmentGroupAllController extends HttpServlet {
                     req.getRequestDispatcher(PAGE_REDIRECT_OK).forward(req, resp);
                     return;
                 }
-            } catch (Exception ignore) {
-            }
+//            } catch (Exception ignore) {
+//            }
         }
         resp.sendRedirect(PAGE_ERROR);
     }

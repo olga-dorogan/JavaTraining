@@ -4,6 +4,7 @@ import com.custom.model.dao.StudentDAO;
 import com.custom.model.entity.DepartmentGroup;
 import com.custom.model.entity.Student;
 import com.custom.model.exception.DAOBusinessException;
+import com.custom.util.Loggable;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityExistsException;
@@ -18,6 +19,7 @@ import java.util.List;
  * Created by olga on 24.03.15.
  */
 @Stateless
+@Loggable
 public class StudentDAOImpl implements StudentDAO {
     @PersistenceContext
     private EntityManager em;
@@ -31,7 +33,7 @@ public class StudentDAOImpl implements StudentDAO {
         student.setDepartmentGroup(groupFromDB);
         if (em.find(Student.class, student.getId()) == null) {
             em.persist(student);
-            em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, group.getId());
+//            em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, group.getId());
             return student;
         } else {
             throw new DAOBusinessException("The same student already exists", new EntityExistsException(""));
@@ -46,8 +48,8 @@ public class StudentDAOImpl implements StudentDAO {
         if (em.find(Student.class, student.getId()) == null) {
             throw new DAOBusinessException("Student was not found in the DB", new EntityExistsException(""));
         }
-        em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, student.getDepartmentGroup().getId());
-        em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, group.getId());
+//        em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, student.getDepartmentGroup().getId());
+//        em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, group.getId());
         student.setDepartmentGroup(group);
         return em.merge(student);
     }
@@ -84,7 +86,7 @@ public class StudentDAOImpl implements StudentDAO {
         if (studentFromDb == null) {
             throw new EntityExistsException("Student was not found in the DB");
         }
-        em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, studentFromDb.getDepartmentGroup().getId());
+//        em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, studentFromDb.getDepartmentGroup().getId());
         em.remove(studentFromDb);
     }
 }

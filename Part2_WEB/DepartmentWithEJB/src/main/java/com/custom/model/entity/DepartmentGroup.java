@@ -23,7 +23,7 @@ public class DepartmentGroup implements Serializable {
     private int course;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Department department;
-    @OneToMany(mappedBy = "departmentGroup", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "departmentGroup", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Student> students = new ArrayList<Student>();
 
     public DepartmentGroup() {

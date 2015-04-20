@@ -30,9 +30,6 @@
   <message name="updateStudentResponse">
     <part name="parameters" element="tns:updateStudentResponse"/>
   </message>
-  <message name="DAOBusinessException">
-    <part name="fault" element="tns:DAOBusinessException"/>
-  </message>
   <message name="saveStudent">
     <part name="parameters" element="tns:saveStudent"/>
   </message>
@@ -55,12 +52,10 @@
     <operation name="updateStudent">
       <input wsam:Action="http://service.custom.com/StudentStore/updateStudentRequest" message="tns:updateStudent"/>
       <output wsam:Action="http://service.custom.com/StudentStore/updateStudentResponse" message="tns:updateStudentResponse"/>
-      <fault message="tns:DAOBusinessException" name="DAOBusinessException" wsam:Action="http://service.custom.com/StudentStore/updateStudent/Fault/DAOBusinessException"/>
     </operation>
     <operation name="saveStudent">
       <input wsam:Action="http://service.custom.com/StudentStore/saveStudentRequest" message="tns:saveStudent"/>
       <output wsam:Action="http://service.custom.com/StudentStore/saveStudentResponse" message="tns:saveStudentResponse"/>
-      <fault message="tns:DAOBusinessException" name="DAOBusinessException" wsam:Action="http://service.custom.com/StudentStore/saveStudent/Fault/DAOBusinessException"/>
     </operation>
   </portType>
   <binding name="StudentStoreBeanPortBinding" type="tns:StudentStore">
@@ -100,9 +95,6 @@
       <output>
         <soap:body use="literal"/>
       </output>
-      <fault name="DAOBusinessException">
-        <soap:fault name="DAOBusinessException" use="literal"/>
-      </fault>
     </operation>
     <operation name="saveStudent">
       <soap:operation soapAction=""/>
@@ -112,9 +104,6 @@
       <output>
         <soap:body use="literal"/>
       </output>
-      <fault name="DAOBusinessException">
-        <soap:fault name="DAOBusinessException" use="literal"/>
-      </fault>
     </operation>
   </binding>
   <service name="StudentStoreService">

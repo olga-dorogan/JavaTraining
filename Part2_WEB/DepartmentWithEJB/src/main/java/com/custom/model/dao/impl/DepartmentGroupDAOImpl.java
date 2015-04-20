@@ -4,6 +4,7 @@ import com.custom.model.dao.DepartmentGroupDAO;
 import com.custom.model.entity.Department;
 import com.custom.model.entity.DepartmentGroup;
 import com.custom.model.exception.DAOBusinessException;
+import com.custom.util.Loggable;
 
 import javax.ejb.Stateless;
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import java.util.List;
  * Created by olga on 20.03.15.
  */
 @Stateless
+@Loggable
 public class DepartmentGroupDAOImpl implements DepartmentGroupDAO {
     @PersistenceContext
     private EntityManager em;

@@ -20,7 +20,8 @@ public class Department implements Serializable {
     @NotNull
     @Column(name = "description")
     private String description;
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    // if use Hibernate and pass list to jsp, fetch must be Eager
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DepartmentGroup> groups;
 
     public Department() {

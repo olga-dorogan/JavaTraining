@@ -3,6 +3,7 @@ package com.custom.model.dao.impl;
 import com.custom.model.dao.DepartmentDAO;
 import com.custom.model.entity.Department;
 import com.custom.model.exception.DAOBusinessException;
+import com.custom.util.Loggable;
 
 import javax.ejb.Stateless;
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.util.List;
  * Created by olga on 18.03.15.
  */
 @Stateless
+@Loggable
 public class DepartmentDAOImpl implements DepartmentDAO {
     private static final String CONSTRAINT_DEPT_MSG = "Department must not be null";
 
