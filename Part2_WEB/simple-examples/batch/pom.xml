@@ -10,6 +10,7 @@
     <modules>
         <module>chunck-csv-db</module>
         <module>batchlet-simple</module>
+        <module>scheduled</module>
     </modules>
     <packaging>pom</packaging>
 
