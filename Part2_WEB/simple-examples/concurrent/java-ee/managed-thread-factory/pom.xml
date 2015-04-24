@@ -10,7 +10,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>managed-executor</artifactId>
+    <artifactId>managed-thread-factory</artifactId>
     <packaging>war</packaging>
+
 
 </project>
