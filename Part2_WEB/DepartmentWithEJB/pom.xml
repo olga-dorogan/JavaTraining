@@ -77,6 +77,16 @@
         </profile>
     </profiles>
 
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>miredot</id>
+            <name>MireDot Releases</name>
+            <url>http://nexus.qmino.com/content/repositories/miredot</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+
     <dependencyManagement>
         <dependencies>
             <!-- Define the version of JBoss' Java EE 7 APIs we want to import.
@@ -153,7 +163,6 @@
     </dependencies>
 
 
-
     <build>
         <resources>
             <resource>
@@ -219,14 +228,37 @@
                             <goal>wsgen</goal>
                         </goals>
                         <configuration>
-                            <sei>com.custom.service.StudentStoreBean</sei>
+                            <sei>com.custom.service.ws.StudentStoreBean</sei>
                             <genWsdl>true</genWsdl>
                             <resourceDestDir>${basedir}/src/main/webapp/WEB-INF/wsdl</resourceDestDir>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <!--for REST API docs &#45;&#45; MireDot-->
+            <plugin>
+                <groupId>com.qmino</groupId>
+                <artifactId>miredot-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>restdoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <licence>UHJvamVjdHxkZW1vLmRlcGFydG1lbnR8MjAxNi0wNC0yNnx0cnVlI01Dd0NGQzdvUm5DRGZnZ3FTZ2toVGJSNyt6UkpKcE8zQWhRaFR3ZVptQjFQYm9ySThnSC9mQndvUy8zU0pRPT0=</licence>
+                    <output>
+                        <title>Department: student store</title>
+                        <html>
+                            <baseUrl>http://localhost:8080/department-1.0-SNAPSHOT/webresources</baseUrl>
+                        </html>
+                    </output>
+                </configuration>
+            </plugin>
         </plugins>
+
     </build>
 
 </project>

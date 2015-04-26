@@ -1,6 +1,7 @@
-package com.custom.service;
+package com.custom.service.ws;
 
 import com.custom.model.exception.DAOBusinessException;
+import com.custom.service.StudentVO;
 
 import javax.ejb.Local;
 import javax.jws.WebMethod;

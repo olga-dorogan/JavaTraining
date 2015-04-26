@@ -14,6 +14,7 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -28,7 +29,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by olga on 05.04.15.
  */
-//@Ignore
+@Ignore
 @RunWith(Arquillian.class)
 public class DepartmentDAOImplTest {
     @Deployment

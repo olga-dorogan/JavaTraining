@@ -1,12 +1,17 @@
 package com.custom.service;
 
-import javax.xml.bind.annotation.*;
+import com.custom.model.entity.Student;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
  * Created by olga on 16.04.15.
  */
-@XmlType(name = "student")
+@XmlRootElement(name = "student")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StudentVO implements Serializable{
     @XmlElement(name = "systemId", required = false)
@@ -20,9 +25,23 @@ public class StudentVO implements Serializable{
     @XmlElement(name = "name", required = true)
     protected String firstName;
     @XmlElement(name = "surname", required = true)
-    protected String lasName;
+    protected String lastName;
     @XmlElement(name = "age", required = true)
     protected int age;
+
+    public StudentVO() {
+
+    }
+
+    public StudentVO(Student student) {
+        this.group = student.getDepartmentGroup().getName();
+        this.course = student.getDepartmentGroup().getCourse();
+        this.id = (int) student.getId();
+        this.idByOrder = 0;
+        this.firstName = student.getFirstName();
+        this.lastName = student.getLastName();
+        this.age = student.getAge();
+    }
 
     public int getIdByOrder() {
         return idByOrder;
@@ -56,12 +75,12 @@ public class StudentVO implements Serializable{
         this.firstName = firstName;
     }
 
-    public String getLasName() {
-        return lasName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLasName(String lasName) {
-        this.lasName = lasName;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public int getAge() {
