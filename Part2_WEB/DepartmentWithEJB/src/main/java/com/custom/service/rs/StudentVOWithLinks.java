@@ -1,6 +1,6 @@
 package com.custom.service.rs;
 
-import com.custom.service.StudentVO;
+import com.custom.service.util.StudentVO;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -14,16 +14,16 @@ import java.util.List;
  * Created by olga on 27.04.15.
  */
 @XmlRootElement
-public class RSStudentVOWithLinks {
+public class StudentVOWithLinks {
 
     private StudentVO studentVO;
     private List<Link> links;
 
-    public RSStudentVOWithLinks() {
+    public StudentVOWithLinks() {
 
     }
 
-    public RSStudentVOWithLinks(StudentVO studentVO, String urlPrefix) {
+    public StudentVOWithLinks(StudentVO studentVO, String urlPrefix) {
         this.studentVO = studentVO;
         links = new ArrayList<>();
         StringBuilder sbList = new StringBuilder();

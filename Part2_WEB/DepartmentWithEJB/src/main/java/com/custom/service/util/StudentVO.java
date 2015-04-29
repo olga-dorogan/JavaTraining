@@ -1,4 +1,4 @@
-package com.custom.service;
+package com.custom.service.util;
 
 import com.custom.model.entity.Student;
 

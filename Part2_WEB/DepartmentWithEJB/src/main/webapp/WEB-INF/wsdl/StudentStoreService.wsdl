@@ -6,6 +6,12 @@
       <xsd:import namespace="http://ws.service.custom.com/" schemaLocation="StudentStoreService_schema1.xsd"/>
     </xsd:schema>
   </types>
+  <message name="saveStudent">
+    <part name="parameters" element="tns:saveStudent"/>
+  </message>
+  <message name="saveStudentResponse">
+    <part name="parameters" element="tns:saveStudentResponse"/>
+  </message>
   <message name="getAll">
     <part name="parameters" element="tns:getAll"/>
   </message>
@@ -30,13 +36,11 @@
   <message name="updateStudentResponse">
     <part name="parameters" element="tns:updateStudentResponse"/>
   </message>
-  <message name="saveStudent">
-    <part name="parameters" element="tns:saveStudent"/>
-  </message>
-  <message name="saveStudentResponse">
-    <part name="parameters" element="tns:saveStudentResponse"/>
-  </message>
   <portType name="StudentStore">
+    <operation name="saveStudent">
+      <input wsam:Action="http://ws.service.custom.com/StudentStore/saveStudentRequest" message="tns:saveStudent"/>
+      <output wsam:Action="http://ws.service.custom.com/StudentStore/saveStudentResponse" message="tns:saveStudentResponse"/>
+    </operation>
     <operation name="getAll">
       <input wsam:Action="http://ws.service.custom.com/StudentStore/getAllRequest" message="tns:getAll"/>
       <output wsam:Action="http://ws.service.custom.com/StudentStore/getAllResponse" message="tns:getAllResponse"/>
@@ -53,13 +57,18 @@
       <input wsam:Action="http://ws.service.custom.com/StudentStore/updateStudentRequest" message="tns:updateStudent"/>
       <output wsam:Action="http://ws.service.custom.com/StudentStore/updateStudentResponse" message="tns:updateStudentResponse"/>
     </operation>
-    <operation name="saveStudent">
-      <input wsam:Action="http://ws.service.custom.com/StudentStore/saveStudentRequest" message="tns:saveStudent"/>
-      <output wsam:Action="http://ws.service.custom.com/StudentStore/saveStudentResponse" message="tns:saveStudentResponse"/>
-    </operation>
   </portType>
   <binding name="StudentStoreBeanPortBinding" type="tns:StudentStore">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="saveStudent">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
     <operation name="getAll">
       <soap:operation soapAction=""/>
       <input>
@@ -88,15 +97,6 @@
       </output>
     </operation>
     <operation name="updateStudent">
-      <soap:operation soapAction=""/>
-      <input>
-        <soap:body use="literal"/>
-      </input>
-      <output>
-        <soap:body use="literal"/>
-      </output>
-    </operation>
-    <operation name="saveStudent">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>

@@ -18,7 +18,7 @@ public interface StudentDAO {
 
     public Student moveToGroup(@NotNull DepartmentGroup group, @NotNull @Valid Student student) throws DAOBusinessException;
 
-    public Student getById(long id);
+    public Student getById(long id) throws DAOBusinessException;
 
     public List<Student> getAll(@NotNull DepartmentGroup group);
 
@@ -26,5 +26,5 @@ public interface StudentDAO {
 
     public Student update(@NotNull @Valid Student student) throws DAOBusinessException;
 
-    public void delete(@NotNull Student student);
+    public void delete(@NotNull Student student) throws DAOBusinessException;
 }
