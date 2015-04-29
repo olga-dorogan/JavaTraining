@@ -90,7 +90,9 @@ public class StudentDAOImpl implements StudentDAO {
         if (studentFromDb == null) {
             throw new DAOBusinessException("Student was not found in the DB", new EntityExistsException(""));
         }
-        em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, studentFromDb.getDepartmentGroup().getId());
+        student.setDepartmentGroup(null);
         em.remove(studentFromDb);
+        em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, studentFromDb.getDepartmentGroup().getId());
+        em.getEntityManagerFactory().getCache().evict(Student.class, studentFromDb.getId());
     }
 }

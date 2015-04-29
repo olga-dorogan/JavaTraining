@@ -121,11 +121,6 @@
             <version>2.6.0</version>
         </dependency>
         <dependency>
-            <groupId>org.mod4j.org.apache.commons</groupId>
-            <artifactId>lang</artifactId>
-            <version>2.1.0</version>
-        </dependency>
-        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>7.0</version>
@@ -160,6 +155,20 @@
             <artifactId>arquillian-protocol-servlet</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+            <version>3.0.11.Final</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson-provider</artifactId>
+            <version>3.0.11.Final</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 
@@ -236,6 +245,7 @@
                 </executions>
             </plugin>
             <!--for REST API docs &#45;&#45; MireDot-->
+            <!--
             <plugin>
                 <groupId>com.qmino</groupId>
                 <artifactId>miredot-plugin</artifactId>
@@ -257,6 +267,7 @@
                     </output>
                 </configuration>
             </plugin>
+            -->
         </plugins>
 
     </build>

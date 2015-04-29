@@ -50,10 +50,10 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 
     @Override
     public Department update(@NotNull @Valid Department department) throws DAOBusinessException {
-        TypedQuery<Department> queryGetDepartmentByDescr = em.createNamedQuery("getDepartmentByDescription",
-                Department.class);
+        TypedQuery<String> queryGetDepartmentByDescr = em.createNamedQuery("getDepartmentByDescription",
+                String.class);
         queryGetDepartmentByDescr.setParameter("description", department.getDescription());
-        List<Department> departmentResultSet = queryGetDepartmentByDescr.getResultList();
+        List<String> departmentResultSet = queryGetDepartmentByDescr.getResultList();
         Department oldDepartment = em.find(Department.class, department.getId());
         if (oldDepartment == null) {
             throw new DAOBusinessException("Department was not found in the DB", new EntityNotFoundException(""));

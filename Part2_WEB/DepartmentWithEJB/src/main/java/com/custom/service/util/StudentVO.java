@@ -98,4 +98,29 @@ public class StudentVO implements Serializable{
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        StudentVO studentVO = (StudentVO) o;
+
+        if (course != studentVO.course) return false;
+        if (age != studentVO.age) return false;
+        if (!group.equals(studentVO.group)) return false;
+        if (!firstName.equals(studentVO.firstName)) return false;
+        return lastName.equals(studentVO.lastName);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = group.hashCode();
+        result = 31 * result + course;
+        result = 31 * result + firstName.hashCode();
+        result = 31 * result + lastName.hashCode();
+        result = 31 * result + age;
+        return result;
+    }
 }

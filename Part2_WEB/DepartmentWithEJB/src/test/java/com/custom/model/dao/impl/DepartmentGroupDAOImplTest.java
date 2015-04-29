@@ -6,7 +6,6 @@ import com.custom.model.entity.Department;
 import com.custom.model.entity.DepartmentGroup;
 import com.custom.model.entity.Student;
 import com.custom.model.exception.DAOBusinessException;
-import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -20,9 +19,7 @@ import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by olga on 05.04.15.
@@ -37,7 +34,6 @@ public class DepartmentGroupDAOImplTest {
                 .addClasses(DepartmentDAO.class, DepartmentDAOImpl.class)
                 .addClasses(DepartmentGroupDAO.class, DepartmentGroupDAOImpl.class)
                 .addPackage(DAOBusinessException.class.getPackage())
-                .addPackage(Validate.class.getPackage())
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }

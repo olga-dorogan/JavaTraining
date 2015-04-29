@@ -90,7 +90,7 @@ public class StudentVOWithLinks {
     }
 
     @XmlElementWrapper
-    @XmlElement(name = "link")
+    @XmlElement(name = "links")
     public List<Link> getLinks() {
         return links;
     }

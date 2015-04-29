@@ -21,7 +21,7 @@ public class Student {
     private String lastName;
     @Column(name = "age")
     private int age;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     private DepartmentGroup departmentGroup;
 
     public Student() {

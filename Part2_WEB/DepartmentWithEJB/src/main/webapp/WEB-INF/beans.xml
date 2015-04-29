@@ -21,6 +21,6 @@
         http://xmlns.jcp.org/xml/ns/javaee
         http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd" bean-discovery-mode="all">
     <interceptors>
-        <class>com.custom.util.LoggingInterceptor</class>
+        <!--<class>com.custom.util.LoggingInterceptor</class>-->
     </interceptors>
 </beans>

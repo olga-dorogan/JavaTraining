@@ -2,14 +2,14 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
 
     <persistence-unit name="departmentDB" transaction-type="JTA">
-        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <!--<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>-->
         <jta-data-source>${datasource}</jta-data-source>
         <class>com.custom.model.entity.Department</class>
         <class>com.custom.model.entity.DepartmentGroup</class>
         <class>com.custom.model.entity.Student</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
-            <property name="eclipselink.target-server" value="JBoss"/>
+            <!--<property name="eclipselink.target-server" value="JBoss"/>-->
 
             <!--<property name="eclipselink.logging.level.sql" value="FINE"/>-->
             <!--<property name="eclipselink.logging.parameters" value="true"/>-->
@@ -20,6 +20,7 @@
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.hbm2ddl.import_files" value="${sql-load-script}"/>
             -->
+            <property name = "hibernate.show_sql" value = "true" />
 
             <property name="javax.persistence.schema-generation.database.action"
                       value="${persistence-schema-generation}"/>
