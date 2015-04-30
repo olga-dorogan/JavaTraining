@@ -46,16 +46,6 @@
     <xs:sequence/>
   </xs:complexType>
 
-  <xs:complexType name="saveStudent">
-    <xs:sequence>
-      <xs:element ref="tns:student"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="saveStudentResponse">
-    <xs:sequence/>
-  </xs:complexType>
-
   <xs:complexType name="getByOrderNumber">
     <xs:sequence>
       <xs:element name="id" type="xs:int"/>
@@ -68,6 +58,16 @@
     <xs:sequence>
       <xs:element name="return" type="tns:studentVO" minOccurs="0"/>
     </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="saveStudent">
+    <xs:sequence>
+      <xs:element ref="tns:student"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="saveStudentResponse">
+    <xs:sequence/>
   </xs:complexType>
 
   <xs:complexType name="getAll">

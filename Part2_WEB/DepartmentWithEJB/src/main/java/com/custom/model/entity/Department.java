@@ -21,7 +21,7 @@ public class Department implements Serializable {
     @Column(name = "description")
     private String description;
     // if use Hibernate and pass list to jsp, fetch must be Eager
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "department", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<DepartmentGroup> groups;
 
     public Department() {

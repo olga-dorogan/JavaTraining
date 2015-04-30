@@ -71,7 +71,7 @@ public class StudentStoreBeanTest {
                 .queryParam("course", "1")
                 .request(MediaType.APPLICATION_JSON).get();
         assertNotNull(response);
-        assertEquals(Response.Status.OK, response.getStatus());
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertTrue(response.hasEntity());
         StudentVOWithLinks[] studentVOWithLinkses = response.readEntity(StudentVOWithLinks[].class);
         assertNotNull(studentVOWithLinkses);
@@ -102,7 +102,7 @@ public class StudentStoreBeanTest {
 
         Response response = target.request().post(Entity.json(savedStudent));
         assertNotNull(response);
-        assertEquals(Response.Status.OK, response.getStatus());
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertTrue(response.hasEntity());
 
         StudentVOWithLinks studentVOWithLinks = response.readEntity(StudentVOWithLinks.class);
@@ -131,7 +131,7 @@ public class StudentStoreBeanTest {
         Response response = target.path("{id}").resolveTemplate("id", "-1")
                 .request().put(Entity.json(updatedStudent));
         assertNotNull(response);
-        assertEquals(Response.Status.OK, response.getStatus());
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertTrue(response.hasEntity());
 
         StudentVOWithLinks studentVOWithLinks = response.readEntity(StudentVOWithLinks.class);
@@ -144,7 +144,7 @@ public class StudentStoreBeanTest {
     public void testDeleteStudent() {
         Response response = target.path("{id}").resolveTemplate("id", "-1").request().delete();
         assertNotNull(response);
-        assertEquals(Response.Status.OK, response.getStatus());
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertTrue(response.hasEntity());
         StudentVOWithLinks.Link link = response.readEntity(StudentVOWithLinks.Link.class);
         assertNotNull(link);

@@ -10,18 +10,11 @@
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <!--<property name="eclipselink.target-server" value="JBoss"/>-->
-
             <!--<property name="eclipselink.logging.level.sql" value="FINE"/>-->
             <!--<property name="eclipselink.logging.parameters" value="true"/>-->
 
-            <!--
-            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
-            <property name="hibernate.show_sql" value="true" />
-            <property name="hibernate.hbm2ddl.import_files" value="${sql-load-script}"/>
-            -->
-            <property name = "hibernate.show_sql" value = "true" />
 
+            <property name = "hibernate.show_sql" value = "true" />
             <property name="javax.persistence.schema-generation.database.action"
                       value="${persistence-schema-generation}"/>
             <property name="javax.persistence.sql-load-script-source"

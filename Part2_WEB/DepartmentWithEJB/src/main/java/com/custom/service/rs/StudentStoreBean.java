@@ -10,6 +10,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,8 +97,17 @@ public class StudentStoreBean {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public StudentVOWithLinks.Link delete(@PathParam("id") int id, @Context HttpServletRequest req) {
+        StudentVO studentVO = studentService.getStudentById(id);
         studentService.deleteStudent(id);
-        return new StudentVOWithLinks.Link("list", getUrlPrefixFromRequest(req), "GET");
+        StringBuilder sbListLink = new StringBuilder();
+        try {
+            sbListLink.append(getUrlPrefixFromRequest(req)).append("?")
+                    .append("group").append("=").append(URLEncoder.encode(studentVO.getGroup(),"UTF-8"))
+                    .append("&")
+                    .append("course").append("=").append(studentVO.getCourse());
+        } catch (UnsupportedEncodingException e) {
+        }
+        return new StudentVOWithLinks.Link("list", sbListLink.toString(), "GET");
     }
 
     private String getUrlPrefixFromRequest(HttpServletRequest request) {

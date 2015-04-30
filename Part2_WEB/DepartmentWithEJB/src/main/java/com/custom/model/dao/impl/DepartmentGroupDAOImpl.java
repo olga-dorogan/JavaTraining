@@ -31,7 +31,7 @@ public class DepartmentGroupDAOImpl implements DepartmentGroupDAO {
         if (groupFromDB == null && !checkGroupForEqualityWithPresentGroups(departmentFromDb, group)) {
             group.setDepartment(departmentFromDb);
             em.persist(group);
-            em.getEntityManagerFactory().getCache().evict(Department.class, departmentFromDb.getId());
+//            em.getEntityManagerFactory().getCache().evict(Department.class, departmentFromDb.getId());
             return group;
         } else {
             throw new DAOBusinessException("The same departmentGroup already exists", new EntityExistsException(""));
@@ -47,8 +47,8 @@ public class DepartmentGroupDAOImpl implements DepartmentGroupDAO {
         if (em.find(DepartmentGroup.class, group.getId()) == null) {
             throw new DAOBusinessException("", new EntityNotFoundException("DepartmentGroup was not found in the DB"));
         }
-        em.getEntityManagerFactory().getCache().evict(Department.class, newDepartment.getId());
-        em.getEntityManagerFactory().getCache().evict(Department.class, group.getDepartment().getId());
+//        em.getEntityManagerFactory().getCache().evict(Department.class, newDepartment.getId());
+//        em.getEntityManagerFactory().getCache().evict(Department.class, group.getDepartment().getId());
         group.setDepartment(newDepartment);
         return em.merge(group);
     }
@@ -91,7 +91,7 @@ public class DepartmentGroupDAOImpl implements DepartmentGroupDAO {
             throw new DAOBusinessException("", new EntityNotFoundException("DepartmentGroup was not found in the DB"));
         }
         em.remove(searchedGroup);
-        em.getEntityManagerFactory().getCache().evict(Department.class, searchedGroup.getDepartment().getId());
+//        em.getEntityManagerFactory().getCache().evict(Department.class, searchedGroup.getDepartment().getId());
     }
 
 

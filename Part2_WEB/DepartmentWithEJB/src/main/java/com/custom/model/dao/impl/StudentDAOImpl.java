@@ -33,7 +33,7 @@ public class StudentDAOImpl implements StudentDAO {
         student.setDepartmentGroup(groupFromDB);
         if (em.find(Student.class, student.getId()) == null) {
             em.persist(student);
-            em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, group.getId());
+//            em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, group.getId());
             return student;
         } else {
             throw new DAOBusinessException("The same student already exists", new EntityExistsException(""));
@@ -48,8 +48,8 @@ public class StudentDAOImpl implements StudentDAO {
         if (em.find(Student.class, student.getId()) == null) {
             throw new DAOBusinessException("Student was not found in the DB", new EntityExistsException(""));
         }
-        em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, student.getDepartmentGroup().getId());
-        em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, group.getId());
+//        em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, student.getDepartmentGroup().getId());
+//        em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, group.getId());
         student.setDepartmentGroup(group);
         return em.merge(student);
     }
@@ -90,9 +90,8 @@ public class StudentDAOImpl implements StudentDAO {
         if (studentFromDb == null) {
             throw new DAOBusinessException("Student was not found in the DB", new EntityExistsException(""));
         }
-        student.setDepartmentGroup(null);
         em.remove(studentFromDb);
-        em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, studentFromDb.getDepartmentGroup().getId());
-        em.getEntityManagerFactory().getCache().evict(Student.class, studentFromDb.getId());
+//        em.getEntityManagerFactory().getCache().evict(DepartmentGroup.class, studentFromDb.getDepartmentGroup().getId());
+//        em.getEntityManagerFactory().getCache().evict(Student.class, studentFromDb.getId());
     }
 }
