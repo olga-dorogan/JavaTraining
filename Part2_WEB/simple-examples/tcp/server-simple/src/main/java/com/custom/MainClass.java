@@ -17,7 +17,7 @@ public class MainClass {
     public static void main(String[] args) throws IOException {
         System.out.println("Begin to listen...");
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        ServerSocket serverSocket = new ServerSocket(9900);
+        ServerSocket serverSocket = new ServerSocket(80);
         Socket acceptedSocket;
         while (true) {
             acceptedSocket = serverSocket.accept();

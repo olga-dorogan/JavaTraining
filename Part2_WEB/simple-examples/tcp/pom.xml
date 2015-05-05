@@ -12,6 +12,9 @@
         <module>server-simple</module>
         <module>client</module>
         <module>http-utils</module>
+        <module>server-pooled</module>
+        <module>server-reactor</module>
+        <module>server-reactor-v2</module>
     </modules>
 
     <properties>
