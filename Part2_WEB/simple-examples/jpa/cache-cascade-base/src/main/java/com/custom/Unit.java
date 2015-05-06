@@ -19,7 +19,7 @@ public class Unit {
     @Size(min = 3, max = 30)
     private String name;
 
-    @OneToMany(mappedBy = "unit", fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "unit", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)//orphanRemoval = true)
     private List<PartOfUnit> partOfUnits = new ArrayList<>();
 
     public Unit() {
@@ -71,5 +71,13 @@ public class Unit {
 
     public void setPartOfUnits(List<PartOfUnit> partOfUnits) {
         this.partOfUnits = partOfUnits;
+    }
+
+    @Override
+    public String toString() {
+        return "Unit{" +
+                "id=" + id +
+                ", name='" + name +
+                '}';
     }
 }

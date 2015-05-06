@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Stateless
 public class UnitStoreBean {
-    @PersistenceContext(unitName = "dsEclipseLink")
+    @PersistenceContext(unitName = "dsHibernate")
     EntityManager em;
 
     public void addUnit(Unit unit) {

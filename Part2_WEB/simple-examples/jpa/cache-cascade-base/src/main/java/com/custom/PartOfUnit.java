@@ -81,4 +81,12 @@ public class PartOfUnit {
         result = 31 * result + (unit != null ? unit.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "PartOfUnit{" +
+                "id=" + id +
+                ", name='" + name +
+                '}';
+    }
 }
