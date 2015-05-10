@@ -61,6 +61,17 @@
             <artifactId>spring-security-config</artifactId>
             <version>4.0.1.RELEASE</version>
         </dependency>
+        <!--for jdbc-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>4.1.4.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.34</version>
+        </dependency>
     </dependencies>
 
     <build>
