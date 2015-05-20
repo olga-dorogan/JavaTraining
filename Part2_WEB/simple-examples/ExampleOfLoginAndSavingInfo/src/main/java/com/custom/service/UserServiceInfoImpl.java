@@ -4,6 +4,8 @@ import com.custom.dao.UserInfoDao;
 import com.custom.model.entity.Task;
 import com.custom.model.entity.UserInfo;
 import com.custom.model.vo.UserInfoVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -15,17 +17,16 @@ import java.util.List;
  */
 @Stateless
 public class UserServiceInfoImpl implements UserInfoService {
-    @EJB
-    private UserInfoDao userInfoDao;
-
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceInfoImpl.class);
     private static final List<Task> tasks = new ArrayList<>(TASKS_CNT);
-
     static {
         for (int i = 0; i < TASKS_CNT; i++) {
             tasks.add(new Task(false));
         }
     }
+
+    @EJB
+    private UserInfoDao userInfoDao;
 
     @Override
     public UserInfoVO save(UserInfoVO userInfoVO) {
@@ -56,9 +57,9 @@ public class UserServiceInfoImpl implements UserInfoService {
     @Override
     public UserInfoVO updateTasks(UserInfoVO userInfoVO) {
         UserInfo userInfoForUpdate = new UserInfo(userInfoVO);
-        System.out.println(">>>>>>>>>>>>>>>>Before update tasks (userInfo - created): " + userInfoForUpdate.getTasks());
+        LOGGER.debug("Before update tasks: {}", userInfoForUpdate.getTasks());
         userInfoForUpdate = userInfoDao.updateUser(userInfoForUpdate);
-        System.out.println(">>>>>>>>>>>>>>>>After update tasks (userInfo - created): " + userInfoForUpdate.getTasks());
+        LOGGER.debug("After update tasks: {}", userInfoForUpdate.getTasks());
         return new UserInfoVO(userInfoForUpdate
         );
     }

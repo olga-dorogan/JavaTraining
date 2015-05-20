@@ -3,6 +3,8 @@ package com.custom.login;
 import com.custom.model.vo.UserInfoVO;
 import org.scribe.model.*;
 import org.scribe.oauth.OAuthService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.EJB;
 import javax.json.Json;
@@ -22,6 +24,7 @@ import java.io.IOException;
  */
 @WebServlet(urlPatterns = {"/oauth2callback"})
 public class OAuth2CallbackServlet extends HttpServlet {
+    private static final Logger logger = LoggerFactory.getLogger(OAuth2CallbackServlet.class);
     @EJB
     private LoginService loginService;
 
@@ -46,15 +49,6 @@ public class OAuth2CallbackServlet extends HttpServlet {
         Token token = service.getAccessToken(null, new Verifier(code));
         //Save the token for the duration of the session
         sess.setAttribute("token", token);
-        //Perform a proxy login
-        /*
-        try {
-
-            req.login("fred", "fredfred");
-        } catch (ServletException e) {
-            //Handle error - should not happen
-        }
-        */
         //Now do something with it - get the user's G+ profile
         OAuthRequest oReq = new OAuthRequest(Verb.GET,
                 "https://www.googleapis.com/oauth2/v2/userinfo");
@@ -65,10 +59,6 @@ public class OAuth2CallbackServlet extends HttpServlet {
         JsonReader reader = Json.createReader(new ByteArrayInputStream(
                 oResp.getBody().getBytes()));
         JsonObject profile = reader.readObject();
-        //Save the user details somewhere or associate it with
-//        sess.setAttribute("userName", profile.getString("name"));
-//        sess.setAttribute("userEmail", profile.getString("email"));
-//        sess.setAttribute("userClientId", profile.get("id"));
 
 
         UserInfoVO loginedUser = loginService.login(
@@ -77,9 +67,9 @@ public class OAuth2CallbackServlet extends HttpServlet {
                 profile.getString("id"),
                 profile.getString("email"));
 
-        System.out.println(">>>>>>>>>>>> Username: " + loginedUser.getFirstName());
-        System.out.println(">>>>>>>>>>>> Email: " + loginedUser.getEmail());
-        System.out.println(">>>>>>>>>>>> Tasks: " + loginedUser.getTasksStates());
+        logger.debug("Username:\t{}",loginedUser.getFirstName());
+        logger.debug("Email:\t{}", loginedUser.getEmail());
+        logger.debug("Tasks:\t{}", loginedUser.getTasksStates());
         sess.setAttribute("user", loginedUser);
         resp.sendRedirect("welcomeUser.jsp");
 

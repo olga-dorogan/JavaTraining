@@ -1,7 +1,8 @@
 package com.custom.dao;
 
-import com.custom.model.entity.Task;
 import com.custom.model.entity.UserInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -14,12 +15,12 @@ import java.util.List;
  */
 @Stateless
 public class UserInfoDaoImpl implements UserInfoDao {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserInfoDaoImpl.class);
     @PersistenceContext
     private EntityManager em;
 
     @Override
     public UserInfo save(UserInfo userInfo) {
-        System.out.println(">>>>>>>>><<<>>>>>>>Persisted user tasks: "+userInfo.getTasks());
         em.persist(userInfo);
         return userInfo;
     }
@@ -47,9 +48,8 @@ public class UserInfoDaoImpl implements UserInfoDao {
         if (userFromDB == null) {
             throw new EntityNotFoundException();
         }
-        List<Task> tasks = userFromDB.getTasks();
-        System.out.println(">>>>>>>>>><<<>>>>>>>>>User from DB tasks: " + tasks);
-       userFromDB.setTasks(userInfo.getTasks());
+        LOGGER.debug("User from db tasks: {}", userFromDB.getTasks());
+        userFromDB.setTasks(userInfo.getTasks());
         return userFromDB;
     }
 }

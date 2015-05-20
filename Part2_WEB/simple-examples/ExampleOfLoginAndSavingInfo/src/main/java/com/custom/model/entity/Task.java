@@ -25,6 +25,7 @@ public class Task {
     public Task(Boolean state) {
         this.state = state;
     }
+
     public Integer getId() {
         return id;
     }
@@ -47,5 +48,13 @@ public class Task {
 
     public void setState(Boolean state) {
         this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", state=" + state +
+                '}';
     }
 }

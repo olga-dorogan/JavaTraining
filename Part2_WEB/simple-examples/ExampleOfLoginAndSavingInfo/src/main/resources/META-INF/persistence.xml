@@ -5,6 +5,7 @@
     <properties>
         <property name="wildfly.jpa.twophasebootstrap" value="false" />
         <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
+        <property name="hibernate.show_sql" value="false"/>
     </properties>
 </persistence-unit>
 </persistence>
