@@ -19,7 +19,7 @@ public class Unit {
     @Size(min = 3, max = 30)
     private String name;
 
-    @OneToMany(mappedBy = "unit", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)//orphanRemoval = true)
+    @OneToMany(mappedBy = "unit", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)//orphanRemoval = true)
     private List<PartOfUnit> partOfUnits = new ArrayList<>();
 
     public Unit() {
