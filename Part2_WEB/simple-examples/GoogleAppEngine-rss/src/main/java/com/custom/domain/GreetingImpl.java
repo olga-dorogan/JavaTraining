@@ -3,7 +3,7 @@ package com.custom.domain;
 /**
  * Created by olga on 21.06.15.
  */
-public class Greeting {
+public class GreetingImpl {
     private String message;
 
     public GreetingImpl() {

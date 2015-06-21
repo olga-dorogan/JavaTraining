@@ -13,6 +13,26 @@
         <servlet-name>SystemServiceServlet</servlet-name>
         <url-pattern>/_ah/spi/*</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>HtmlPagerServlet</servlet-name>
+        <servlet-class>com.custom.servlet.ParfumsPricesLoader</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HtmlPagerServlet</servlet-name>
+        <url-pattern>/crons/get_parf_prices</url-pattern>
+    </servlet-mapping>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>crons</web-resource-name>
+            <url-pattern>/crons/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>

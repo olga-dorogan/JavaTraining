@@ -3,6 +3,8 @@ package com.custom.spi;
 import com.custom.Constants;
 import com.custom.domain.Counter;
 import com.custom.domain.GreetingImpl;
+import com.custom.domain.ParfumWithPrice;
+import com.custom.form.ParfumProducerForm;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.response.UnauthorizedException;
@@ -11,6 +13,8 @@ import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.users.User;
 import com.googlecode.objectify.Key;
 
+import java.util.List;
+
 import static com.custom.service.OfyService.ofy;
 
 /**
@@ -18,11 +22,20 @@ import static com.custom.service.OfyService.ofy;
  * update your web.xml accordingly.
  */
 @Api(
-        name = "greeting", version = "v1", scopes = {Constants.EMAIL_SCOPE},
+        name = "parfumsAndGreetings", version = "v1", scopes = {Constants.EMAIL_SCOPE},
         clientIds = {Constants.WEB_CLIENT_ID, Constants.API_EXPLORER_CLIENT_ID},
-        description = "API for the Greeting part of Tested Backend application."
+        description = "API for the Backend application."
 )
 public class GreetingAPI {
+    @ApiMethod(
+            name = "parfums",
+            path = "getParfumsByProducer",
+            httpMethod = ApiMethod.HttpMethod.POST
+    )
+    public List<ParfumWithPrice> getParfumsByProducer(ParfumProducerForm producerForm) {
+        return producerForm.getQuery().list();
+    }
+
     @ApiMethod(
             name = "hello",
             path = "greeting",
