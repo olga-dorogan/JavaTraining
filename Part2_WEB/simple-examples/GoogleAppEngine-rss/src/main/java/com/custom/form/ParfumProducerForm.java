@@ -90,12 +90,13 @@ public class ParfumProducerForm {
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     public Query<ParfumWithPrice> getQuery() {
         Query<ParfumWithPrice> query = ofy().load().type(ParfumWithPrice.class);
-        query.order(ParfumWithPrice.PRICE);
         if (filter != null) {
             query = query.filter(
                     String.format("%s %s", filter.field.getFieldName(), filter.operator.getQueryOperator()),
                     filter.value);
+            query = query.order(filter.field.getFieldName());
         }
+        query = query.order(ParfumWithPrice.PRICE);
         return query;
     }
 }

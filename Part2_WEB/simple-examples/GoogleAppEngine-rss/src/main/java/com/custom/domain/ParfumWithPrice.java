@@ -5,6 +5,8 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
+import java.util.DoubleSummaryStatistics;
+
 /**
  * Created by olga on 21.06.15.
  */
@@ -18,12 +20,12 @@ public class ParfumWithPrice {
     @Index
     private String parfumHouse;
     @Index
-    private String price;
+    private Double price;
 
     public ParfumWithPrice() {
 
     }
-    public ParfumWithPrice(String name, String parfumHouse, String price) {
+    public ParfumWithPrice(String name, String parfumHouse, Double price) {
         this.name = name;
         this.parfumHouse = parfumHouse;
         this.price = price;
@@ -45,11 +47,11 @@ public class ParfumWithPrice {
         this.parfumHouse = parfumHouse;
     }
 
-    public String getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

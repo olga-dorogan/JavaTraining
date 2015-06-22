@@ -17,6 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static com.custom.service.OfyService.ofy;
 
@@ -24,12 +25,16 @@ import static com.custom.service.OfyService.ofy;
  * Created by olga on 21.06.15.
  */
 public class ParfumsPricesLoader extends HttpServlet {
+    Logger LOG = Logger.getLogger(ParfumWithPrice.class.getName());
+
+    private static final String DEFAULT_CHARSET = "UTF-8";
     private static final String PAGE_ADDRESS = "http://www.parfumaniya.com.ua/informer/20";
     private static final String PRICE_TEXT = "грн/мл";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(PAGE_ADDRESS).openStream()))) {
+        LOG.info("Beginning of parfums page loading and parsing");
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(PAGE_ADDRESS).openStream(), DEFAULT_CHARSET))) {
             String line;
             StringBuilder sb = new StringBuilder();
             while ((line = reader.readLine()) != null) {
@@ -64,7 +69,15 @@ public class ParfumsPricesLoader extends HttpServlet {
             }
             Elements elementsContainingPrice = td.getElementsContainingOwnText(PRICE_TEXT);
             price = elementsContainingPrice.text().replaceFirst(author, "");
-            parfumWithPrices.add(new ParfumWithPrice(name, author, price));
+            Double priceAsDouble = 0.0;
+            for (String pricePart : price.split(" ")) {
+                try {
+                    priceAsDouble = Double.valueOf(pricePart);
+                    break;
+                } catch (NumberFormatException ignore) {
+                }
+            }
+            parfumWithPrices.add(new ParfumWithPrice(name, author, priceAsDouble));
         }
         for (ParfumWithPrice parfum : parfumWithPrices) {
             ofy().save().entity(parfum).now();
